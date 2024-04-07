@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
 
-import date from "@hapi/joi";
-
-// mongoose.set("useNewUrlParser", true);
-// mongoose.set("useFindAndModify", false);
-// mongoose.set("useCreateIndex", true);
 
 const testSchema = new mongoose.Schema({
   title: {
@@ -64,6 +59,10 @@ const testSchema = new mongoose.Schema({
   },
   highestMarks: {
     type: Number,
+    required: true
+  },
+  isReleased :{
+    type: Boolean,
     required: true
   }
 });
