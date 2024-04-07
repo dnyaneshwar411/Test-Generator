@@ -5,8 +5,13 @@ import authRoutes from "./router/auth_routes.js";
 import test from "./router/tests_routes.js"
 import cors from "cors";
 import getusers from '../backend/router/user_routes.js'
-
+import emailRoutes from "./router/email_routes.js"
+import bodyParser from 'body-parser';
 router.use(express.json())
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }))
+
 router.use(cors({
   origin: "*"
 }))
@@ -16,6 +21,9 @@ router.get("/", function (req, res) {
 });
 
 router.use("/api/auth", authRoutes);
+router.use('/email', emailRoutes);
+
+
 router.use("/test", test);
 
 router.use('/getusers',getusers)
