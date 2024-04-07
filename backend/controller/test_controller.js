@@ -91,3 +91,22 @@ export const deleteTest = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+////submit answer
+
+export const submitAnswers = async (req, res) => {
+  try {
+    const test = await Tests.findById(req.params.id);
+    const answers = req.body.answers;
+
+    let score = 0;
+    test.questions.forEach((question, index) => {
+      if (question.answer === answers[index]) {
+        score++;
+      }
+    });
+    res.json({ score });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

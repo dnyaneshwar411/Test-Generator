@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const testSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -50,21 +49,22 @@ const testSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      default: []
+      default: [],
     },
   ],
   passingScore: {
     type: Number,
-    required: true
+    required: true,
   },
   highestMarks: {
     type: Number,
-    required: true
+    required: true,
   },
-  isReleased :{
+  isReleased: {
     type: Boolean,
-    required: true
-  }
+    required: true,
+    default: false,
+  },
 });
 
 const Tests = mongoose.model("Tests", testSchema);
