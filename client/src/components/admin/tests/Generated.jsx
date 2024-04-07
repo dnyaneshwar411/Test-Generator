@@ -17,4 +17,4 @@ export default function Generated() {
       </NavLink>
     </div>)}
   </div>
-};
+}

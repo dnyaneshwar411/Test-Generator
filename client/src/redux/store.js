@@ -30,26 +30,30 @@ function userReducer(state = userInitialState, action) {
   }
 }
 
-const createTestInitialState = {
+const liveTestInitialState = {
+  testDuration: -1,
   questions: [],
-  passingScore: null,
-  totalScore: null,
-
+  activeQuestionNo: -1,
+  activeQuestion: {},
+  userResponses: []
 }
 
-function createTestReducer(state = createTestInitialState, action) {
+function liveTestReducer(state = liveTestInitialState, action) {
   switch (action.type) {
-    case "createTest/":
-      break;
+    case "liveTest/fetch-test":
+      return { ...state, ...action.payload };
 
+    case "liveTest/set-currentQuestion":
+      return { ...state, activeQuestionNo: action.payload, activeQuestion: state.questions[action.payload - 1] }
     default:
-      break;
+      return state;
   }
 }
 
 export const store = configureStore({
   reducer: {
-    user: userReducer
+    user: userReducer,
+    liveTest: liveTestReducer
   }
 })
 
@@ -65,5 +69,20 @@ export function logout() {
     dispatch({ type: "user/logout" })
   }
 }
+
+// function for test reducer
+export function fetchTest(id) {
+  return async function (dispatch) {
+    const response = await fetch(`http://localhost:3000/test/gettest/${id}`);
+    const data = await response.json()
+    dispatch({ type: "liveTest/fetch-test", payload: data.test })
+  }
+}
+
+export function setCurrentQuestion(id) {
+  return { type: "liveTest/set-currentQuestion", payload: id }
+}
+
+// created store
 
 store.dispatch(checkIfUserLoggedIn());

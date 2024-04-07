@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
 const MAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-// const PASS_REGEX = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
-const PASS_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const PASS_REGEX = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+// number, capital letter, small letter, special character
 
 export default function useSignup() {
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ function handleInputErrors({ name, email, password, division, confirmPassword })
   }
 
   if (!MAIL_REGEX.test(email)) return { status: false, message: "Email should be of the format ...@gmail.com" };
-  // if (!PASS_REGEX.test(password)) return { status: false, message: "Password should contain at least one number, special character and an alphabet" };
+  if (!PASS_REGEX.test(password)) return { status: false, message: "Password should contain at least one number, special character and an alphabet" };
 
   if (password !== confirmPassword) {
     toast.error("");

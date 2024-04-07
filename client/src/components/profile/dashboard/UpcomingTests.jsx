@@ -1,18 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useGetTests from "../../../hooks/useGetTests";
 import TestInfo from "./TestInfo";
-import { InfinitySpin } from "react-loader-spinner";
 import Loader from "../../Loader";
+import Error from "../../Error";
 
 export default function UpcomingTests() {
-  const { loading, getTests, tests } = useGetTests();
+  const [tests, setTests] = useState([]);
+  const [error, setError] = useState();
+  const { loading, getTests } = useGetTests();
 
   useEffect(function () {
     async function retrieve() {
       try {
-        await getTests();
+        const response = await getTests();
+        if (response.status) setTests(response.payload);
+        else setError(response.message);
       } catch (error) {
-        console.log(error.message)
+        setError(error.message)
       }
     }
 
@@ -21,6 +25,7 @@ export default function UpcomingTests() {
   return <div>
     <h2>Upcoming Tests</h2>
     {loading && <Loader />}
-    {tests.tests && tests.tests.map(test => <TestInfo key={test._id} test={test} />)}
+    {error && <Error message={error} />}
+    {tests.tests && tests.tests.map((test, index) => <TestInfo key={test._id} test={test} index={index} />)}
   </div>
 }

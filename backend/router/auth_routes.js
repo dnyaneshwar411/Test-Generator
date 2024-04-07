@@ -1,6 +1,8 @@
 import express from "express";
+
 import {loginUser, signupUser,logoutUser } from "../controller/auth_controller.js";
 import {loginAdmin,signupAdmin,logoutAdmin} from "../controller/adminAuth_controller.js"
+
 const router = express.Router();
 
 router.get("/get", (req, res) => {
