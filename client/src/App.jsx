@@ -22,7 +22,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import RecentTests from "./components/admin/dashboard/RecentTests";
 import TestDetails from "./components/admin/tests/TestDetails";
 import AdminTests from "./components/admin/tests/AdminTests";
-import Generated from "./components/admin/tests/Generated";
+// import Generated from "./components/admin/tests/Generated";
 import CreateTest from "./components/admin/tests/CreateTest";
 import ReleaseTest from "./components/admin/tests/ReleaseTest";
 import UploadKey from "./components/admin/upload key/UploadKey";
