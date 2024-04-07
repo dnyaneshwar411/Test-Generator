@@ -2,11 +2,21 @@ import { MagnifyingGlassIcon, ClockIcon, GlobeAltIcon } from "@heroicons/react/2
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import useGetTests from "../../hooks/useGetTests";
-
+import Error from "../Error";
+import Loader from "../Loader";
 
 export default function Tests() {
-  const { loading, getTests, tests } = useGetTests();
-  const [test, setTest] = useState(null);
+  const { loading, getTests } = useGetTests();
+  const [error, setError] = useState();
+  const [test, setTest] = useState();
+
+  const [tests, setTests] = useState([]);
+  const [displayedTests, setDisplayedTests] = useState([]);
+
+  function handleSearch(str) {
+    setDisplayedTests(tests.filter(test => test.title.toLowerCase().includes(str.toLowerCase())));
+  }
+
   function showDetails(id) {
     setTest(prev => prev === id ? null : id);
   }
@@ -14,7 +24,12 @@ export default function Tests() {
   useEffect(function () {
     async function retrieve() {
       try {
-        await getTests();
+        const response = await getTests();
+        if (response.status) {
+          setTests(response.payload.tests)
+          setDisplayedTests(response.payload.tests)
+        }
+        else setError(response.payload)
       } catch (error) {
         console.log(error.message)
       }
@@ -28,12 +43,13 @@ export default function Tests() {
       <label htmlFor="search">
         <MagnifyingGlassIcon className="icon-lg absolute top-1/2 translate-y-[-50%] left-3" />
       </label>
-      <input type="text" id="search" className="w-full bg-transparent pl-8" placeholder="search for test" />
+      <input type="text" id="search" className="w-full bg-transparent pl-8" placeholder="search for test" onChange={e => handleSearch(e.target.value)} />
     </div>
 
     <div className="flex flex-wrap gap-4 mt-10 justify-evnly">
-      {loading && <>Data is being fetched</>}
-      {tests.tests && tests.tests.map(test =>
+      {loading && <Loader />}
+      {error && <Error message={error} setter={setError} />}
+      {displayedTests && displayedTests.map(test =>
         <div key={test._id} className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] md:max-w-[350px] cursor-pointer" onClick={() => showDetails(test)}>
           <h3>{test.title}</h3>
           <p>Date: {test.availableAt.substring(0, 10).split("-").join(" / ")}</p>
@@ -43,6 +59,7 @@ export default function Tests() {
           <p className="text-right text-blue-600 font-semibold">Completed</p>
         </div>
       )}
+
     </div>
 
     {test && <Info test={test} />}
