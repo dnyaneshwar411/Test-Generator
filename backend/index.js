@@ -4,6 +4,7 @@ import DBConnection from "./database/dbConnection.js";
 import authRoutes from "./router/auth_routes.js";
 import test from "./router/tests_routes.js"
 import cors from "cors";
+import getusers from '../backend/router/user_routes.js'
 
 router.use(express.json())
 router.use(cors({
@@ -16,6 +17,8 @@ router.get("/", function (req, res) {
 
 router.use("/api/auth", authRoutes);
 router.use("/test", test);
+
+router.use('/getusers',getusers)
 
 router.listen(3000, function (req, res) {
   DBConnection();
