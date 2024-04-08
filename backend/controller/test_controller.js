@@ -110,3 +110,27 @@ export const submitAnswers = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const releaseTest = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const releasedTest = await Tests.findByIdAndUpdate(
+      id,
+      {
+        isReleased: true,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!releasedTest) {
+      return res.status(404).json({ message: "Test not found" });
+    }
+    console.log("success");
+    return res.status(200).json(releasedTest);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
