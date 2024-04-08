@@ -16,7 +16,8 @@ function userReducer(state = userInitialState, action) {
         name: action.payload.name || "",
         email: action.payload.email || "",
         division: action.payload.division || "",
-        isLoggedIn: true
+        isLoggedIn: true,
+        type: action.payload.type || ""
       }
 
     case "user/logout":

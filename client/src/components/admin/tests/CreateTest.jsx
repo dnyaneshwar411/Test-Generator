@@ -41,7 +41,6 @@ export default function CreateTest() {
 
   async function handleForm(e) {
     e.preventDefault();
-    console.log(e.target)
     const info = {
       testName: e.target[0].value,
       // instruction: e.target[1].value,
@@ -57,9 +56,7 @@ export default function CreateTest() {
 
     try {
       const response = await createTest(info);
-      console.log(response)
     } catch (error) {
-      console.log(error.message)
     }
   }
 

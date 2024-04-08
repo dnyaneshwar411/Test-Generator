@@ -15,7 +15,7 @@ export default function SignUp() {
     e.preventDefault();
     // console.log(e.target)
     try {
-      const response = await signup({ name: e.target[0].value, email: e.target[1].value, password: e.target[3].value, division: e.target[2].value, confirmPassword: e.target[4].value })
+      const response = await signup({ name: e.target[0].value, email: e.target[1].value, password: e.target[3].value, division: e.target[2].value, confirmPassword: e.target[4].value, isAdmin: false })
       if (!response.status) setError(response.message)
     } catch (error) {
       setError(error.message);

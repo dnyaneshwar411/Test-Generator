@@ -34,12 +34,12 @@ import EditTest from "./components/admin/tests/EditTest";
 export default function App() {
 
   const isLoggedIn = useSelector(store => store.user.isLoggedIn);
-
+  const type = useSelector(store => store.user.type);
   return (
     <>
       <Nav isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path="/" element={isLoggedIn ? <Profile /> : <Navigate to="/user" />}>
+        <Route path="/" element={isLoggedIn && type === "user" ? <Profile /> : isLoggedIn && type == "admin" ? <Navigate to="/admin" /> : <Navigate to="/user" />}>
           <Route index path="" element={<Dashboard />} />
           <Route index path=":id/status" element={<ShowTestStatus />} />
           <Route index path="tests" element={<Tests />} />
@@ -49,21 +49,22 @@ export default function App() {
           <Route index path="results/:testId" element={<PreviousResults />} />
         </Route>
 
-        <Route index path="tests/:id/test-live/" element={isLoggedIn ? <LiveTest /> : <Navigate to="/user" />} />
-        <Route index path="tests/:id/test-completed" element={isLoggedIn ? <TestCompleted /> : <Navigate to="/user" />} />
+        <Route index path="/tests/:id/test-live/" element={isLoggedIn && type === "user" ? <LiveTest /> : <Navigate to="/user" />} />
+        <Route index path="/tests/:id/test-completed" element={isLoggedIn && type === "user" ? <TestCompleted /> : <Navigate to="/user" />} />
 
-        <Route path="user" element={!isLoggedIn ? <Authenticate /> : <Navigate to="/" />}>
+        <Route path="/user" element={!isLoggedIn ? <Authenticate /> : <Navigate to="/" />}>
           <Route index path="" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
 
-        <Route path="admin" element={<AdminAuthenticate />}>
+        <Route path="/admin" element={!isLoggedIn ? <AdminAuthenticate /> : <Navigate to="/admin/dashboard" />}>
           <Route index path="" element={<SignInAdmin />} />
           <Route path="sign-up" element={<SignUpAdmin />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
-        <Route path="admin" element={<AdminDashboard />} >
+
+        <Route path="/admin" element={isLoggedIn && type === "admin" ? < AdminDashboard /> : isLoggedIn && type === "user" ? <Navigate to="/" /> : <Navigate to="/admin" />} >
           <Route path="dashboard" element={<RecentTests />} />
           <Route path="dashboard/test/:id/details" element={<TestDetails />} />
           <Route path="tests" element={<AdminTests />}>
@@ -75,7 +76,7 @@ export default function App() {
           <Route path="upload-key" element={<UploadKey />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="results" element={<AdminResults />} />
-        </Route>
+        </Route >
       </Routes >
     </>
   )

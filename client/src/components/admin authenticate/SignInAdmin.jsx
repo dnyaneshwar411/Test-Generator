@@ -1,20 +1,33 @@
 import { Link } from "react-router-dom";
 import { inputStyles, labelStyles } from "../../utils/data";
 import ForgotLink from "../authenticate/ForgotLink";
+import useLogin from "../../hooks/useLogin";
+import { useState } from "react";
+import Error from "../Error";
 
 export default function SignInAdmin() {
-  function signIn(e) {
-    e.preventDefault()
+  const { loginAdmin } = useLogin();
+  const [error, setError] = useState(false);
+
+  async function signIn(e) {
+    e.preventDefault();
+    try {
+      const response = await loginAdmin({ email: e.target[0].value, password: e.target[1].value })
+      if (!response.status) setError(response.payload)
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   return (
     <div>
+      {error && <Error message={error} setter={setError} />}
       <form onSubmit={signIn}>
         <label htmlFor="username" className={labelStyles}>Username</label>
         <input type="text" id="username" placeholder="user" className={inputStyles} />
 
         <label htmlFor="password" className={labelStyles}>Password</label>
-        <input type="text" id="password" placeholder="password" className={inputStyles} />
+        <input type="password" id="password" placeholder="password" className={inputStyles} />
 
         <div>
           <input type="checkbox" id="rememberMe" className="mr-2 cursor-pointer" />
@@ -31,4 +44,4 @@ export default function SignInAdmin() {
       </Link>
     </div >
   )
-};
+}

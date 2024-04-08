@@ -1,17 +1,34 @@
 import { Link } from "react-router-dom";
 import { inputStyles, labelStyles } from "../../utils/data";
 import ForgotLink from "../authenticate/ForgotLink";
+import useSignup from "../../hooks/useSignup";
+import { useState } from "react";
+import Error from "../Error";
 
 export default function SignUpAdmin() {
-  function signUp(e) {
-    e.preventDefault()
+  const { signupAdmin } = useSignup();
+  const [error, setError] = useState();
+
+  async function signUp(e) {
+    e.preventDefault();
+    // console.log(e.target)
+    try {
+      const response = await signupAdmin({ name: e.target[0].value, email: e.target[1].value, password: e.target[2].value, confirmPassword: e.target[3].value, isAdmin: true })
+      if (!response.status) setError(response.message)
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   return (
     <div>
+      {error && <Error message={error} setter={setError} />}
       <form onSubmit={signUp}>
-        <label htmlFor="username" className={labelStyles}>Username</label>
-        <input type="text" id="username" placeholder="user" className={inputStyles} />
+        <label htmlFor="name" className={labelStyles}>Name</label>
+        <input type="text" id="name" placeholder="Name" className={inputStyles} />
+
+        <label htmlFor="email" className={labelStyles}>Email</label>
+        <input type="email" id="email" placeholder="Email" className={inputStyles} />
 
         <label htmlFor="password" className={labelStyles}>Password</label>
         <input type="text" id="password" placeholder="password" className={inputStyles} />
@@ -34,4 +51,4 @@ export default function SignUpAdmin() {
       </Link>
     </div>
   )
-};
+}

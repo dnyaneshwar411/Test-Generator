@@ -10,19 +10,18 @@ export default function useSignup() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
 
-  async function signup({ name, email, password, division, confirmPassword }) {
+  async function signup({ name, email, password, division, confirmPassword, isAdmin }) {
     const info = handleInputErrors({ name, email, password, division, confirmPassword });
     if (!info.status) return info
     try {
       setLoading(true);
-
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch(`http://localhost:3000/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, confirmPassword, division }),
       });
       const data = await response.json()
-      localStorage.setItem("user", JSON.stringify(data))
+      localStorage.setItem("user", JSON.stringify({ ...data, type: "user" }))
       dispatch({ type: "user/logInUser", payload: data });
     } catch (error) {
       console.log(error.message)
@@ -31,12 +30,33 @@ export default function useSignup() {
     }
   }
 
+  async function signupAdmin({ name, email, password, confirmPassword }) {
+    const info = handleInputErrors({ name, email, password, confirmPassword });
+    if (!info.status) return info
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:3000/api/auth/adminignup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await response.json()
+      localStorage.setItem("user", JSON.stringify({ ...data, type: "admin" }))
+      dispatch({ type: "user/logInUser", payload: data });
+      return { status: true }
+    } catch (error) {
+      return ({ status: false, message: error.message });
+    } finally {
+      setLoading(false)
+    }
+  }
 
-  return { loading, signup };
+
+  return { loading, signup, signupAdmin };
 }
 
-function handleInputErrors({ name, email, password, division, confirmPassword }) {
-  if (!name || !email || !password || !division || !confirmPassword) {
+function handleInputErrors({ name, email, password, confirmPassword }) {
+  if (!name || !email || !password || !confirmPassword) {
     toast.error("Please fill in all fields");
     return false;
   }
