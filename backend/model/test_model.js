@@ -12,6 +12,10 @@ const testSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  domain: {
+    type: String,
+    required: true,
+  },
   availableAt: Date,
   testDuration: {
     type: Number,
@@ -65,6 +69,7 @@ const testSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
+
 });
 
 const Tests = mongoose.model("Tests", testSchema);
