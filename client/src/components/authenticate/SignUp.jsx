@@ -10,12 +10,13 @@ const labelStyles = "font-semibold";
 export default function SignUp() {
   const { signup } = useSignup();
   const [error, setError] = useState();
+  const [division, setDivision] = useState("B");
 
   async function signUp(e) {
     e.preventDefault();
     // console.log(e.target)
     try {
-      const response = await signup({ name: e.target[0].value, email: e.target[1].value, password: e.target[3].value, division: e.target[2].value, confirmPassword: e.target[4].value, isAdmin: false })
+      const response = await signup({ name: e.target[0].value, email: e.target[1].value, password: e.target[3].value, division, confirmPassword: e.target[4].value, isAdmin: false })
       if (!response.status) setError(response.message)
     } catch (error) {
       setError(error.message);
@@ -26,14 +27,20 @@ export default function SignUp() {
     <div>
       {error && <Error message={error} setter={setError} />}
       <form onSubmit={signUp}>
-        <label htmlFor="name" className={labelStyles}>name</label>
+        <label htmlFor="name" className={labelStyles}>Name</label>
         <input type="text" id="name" placeholder="name" className={inputStyles} />
 
-        <label htmlFor="email" className={labelStyles}>email</label>
+        <label htmlFor="email" className={labelStyles}>Email</label>
         <input type="email" id="email" placeholder="email" className={inputStyles} />
 
-        <label htmlFor="division" className={labelStyles}>division</label>
-        <input type="text" id="division" placeholder="division" className={inputStyles} />
+        <label htmlFor="division" className={labelStyles}>Division</label>
+        <select id="division" className={`bg-white cursor-pointer ${inputStyles}`} value={division} onChange={e => setDivision(e.target.value)}>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+        <input type="text" className={inputStyles} hidden />
 
         <label htmlFor="password" className={labelStyles}>Password</label>
         <input type="password" id="password" placeholder="password" className={inputStyles} />

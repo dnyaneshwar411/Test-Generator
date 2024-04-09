@@ -27,10 +27,10 @@ export default function Sidebar() {
           <span className="text-[16px]">Tests</span>
         </NavLink>
 
-        <NavLink to="/admin/upload-key" className="flex items-start gap-2 p-2 mb-2">
+        {/* <NavLink to="/admin/upload-key" className="flex items-start gap-2 p-2 mb-2">
           <ClipboardDocumentListIcon className="icon-lg" />
           <span className="text-[16px]">Upload Key</span>
-        </NavLink>
+        </NavLink> */}
 
         <NavLink to="/admin/users" className="flex items-start gap-2 p-2 mb-2">
           <UsersIcon className="icon-lg" />

@@ -30,7 +30,6 @@ export default function ForgotPassword() {
       const response = await sendOTP(email);
       if (!response.status) setError(response.payload);
       else setIsOTPSent(true);
-      navigate("/");
     } catch (error) {
       setError(error.message);
     }
@@ -52,7 +51,7 @@ export default function ForgotPassword() {
     try {
       const response = await updatePassword(password, cpassword);
       if (!response.status) setError(response.payload);
-      console.log(response)
+      else navigate("/");
     } catch (error) {
       console.log(error.message)
     }

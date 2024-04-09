@@ -47,19 +47,19 @@ export default function AdminUsers() {
       <h1 className="p-4">Users</h1>
       <div className="overflow-x-auto">
         <div className="font-bold flex items-center justify-start border-t-2 p-4">
-          <p className="min-w-40">Name</p>
-          <p className="min-w-40">Username</p>
-          <p className="min-w-40">Email</p>
-          <p className="min-w-40">Division</p>
-          <p className="min-w-40">Tests Given</p>
+          <p className="min-w-40 px-4">Name</p>
+          <p className="min-w-40 px-4">Username</p>
+          <p className="w-72 px-4 ">Email</p>
+          <p className="min-w-40 px-4">Division</p>
+          <p className="min-w-40 px-4">Tests Given</p>
         </div>
         {displayedUsers.map(user =>
           <div key={user._id} className="flex items-center justify-start border-t-2 p-4">
-            <p className="min-w-40">{user.name}</p>
-            <p className="min-w-40">john</p>
-            <p className="min-w-40">{user.email}</p>
-            <p className="min-w-40">{user.division}</p>
-            <p className="min-w-40">{user?.tests?.length || 0}</p>
+            <p className="min-w-40 px-4">{user.name}</p>
+            <p className="min-w-40 px-4">john</p>
+            <p className="w-72 px-4 ">{user.email}</p>
+            <p className="min-w-40 px-4">{user.division}</p>
+            <p className="min-w-40 px-4">{user?.tests?.length || 0}</p>
           </div>
         )}
       </div>
