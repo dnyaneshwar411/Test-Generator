@@ -9,13 +9,13 @@ const optionsInitialState = [{ id: 1, value: "" }, { id: 2, value: "" }, { id: 3
 export default function CreateTest() {
   const { loading, createTest } = useCreateTest();
 
-  const name = useSelector(store => store.user.name)
+  const name = useSelector(store => store.user.name);
 
   const fileRef = useRef(null);
 
   const [questionTitle, setQuestionTitle] = useState("");
   const [options, setOptions] = useState(optionsInitialState);
-  const [correctAnswer, setCorrectAnswer] = useState(null)
+  const [correctAnswer, setCorrectAnswer] = useState(null);
   const [questions, setQuestions] = useState([]);
 
   const qLength = questions.length;

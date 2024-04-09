@@ -92,8 +92,8 @@ function Info({ test }) {
 
     <h3 className="mt-4">Test ID’s</h3>
     <p>This is for students who are taking the test in a proctored environment.</p>
-    <NavLink to="/tests/1/generate">
-      <button className="btn-scnd mt-10 block mx-auto rounded-2xl">Generate username and password</button>
+    <NavLink to={`/tests/${test._id}/test-live/`}>
+      <button className="btn-scnd mt-10 block mx-auto rounded-2xl">Give This Test</button>
     </NavLink>
   </div>
 }

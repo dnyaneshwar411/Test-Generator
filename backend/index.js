@@ -26,7 +26,7 @@ router.use('/email', emailRoutes);
 
 router.use("/test", test);
 
-router.use('/getusers',getusers)
+router.use('/getusers', getusers)
 
 router.listen(3000, function (req, res) {
   DBConnection();

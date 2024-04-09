@@ -73,3 +73,15 @@ export const logoutAdmin = (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const changePassword = (req, res) => {
+  const { password, cpassword } = req.body;
+
+  try {
+    if (password !== cpassword) res.status(401).json({ error: "passwords do not match" });
+    // make changes here
+    res.status(200).json({ message: "password changed suxccessfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}

@@ -59,7 +59,6 @@ export const gettestByid = async (req, res) => {
 
 export const updateTest = async (req, res) => {
   const { id } = req.params;
-
   try {
     const updatedTest = await Tests.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -105,6 +104,21 @@ export const submitAnswers = async (req, res) => {
         score++;
       }
     });
+
+    /*  add a field of type array in user modal "submittedTests:{ testId:_id, answers:answers }"
+     *  submittedTests: [
+              {
+              testId: _id,
+              answers,
+              attemptedOnDate,
+              attempted,
+              wrongAnswers,
+              marksEarned
+              }
+            ]
+     *  add this user in array of participants in tests modal
+     */
+
     res.json({ score });
   } catch (error) {
     res.status(500).json({ message: error.message });

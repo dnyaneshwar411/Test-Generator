@@ -32,12 +32,14 @@ import { useSelector } from "react-redux";
 import EditTest from "./components/admin/tests/EditTest";
 
 export default function App() {
+  const { isStarted, _id } = useSelector(store => store.liveTest);
 
   const isLoggedIn = useSelector(store => store.user.isLoggedIn);
   const type = useSelector(store => store.user.type);
   return (
     <>
-      <Nav isLoggedIn={isLoggedIn} />
+      {isStarted && <Navigate to={`tests/${_id}/test-live/`} />}
+      {!isStarted && <Nav isLoggedIn={isLoggedIn} />}
       <Routes>
         <Route path="/" element={isLoggedIn && type === "user" ? <Profile /> : isLoggedIn && type == "admin" ? <Navigate to="/admin" /> : <Navigate to="/user" />}>
           <Route index path="" element={<Dashboard />} />

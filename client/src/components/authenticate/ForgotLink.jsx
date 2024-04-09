@@ -6,4 +6,4 @@ export default function ForgotLink() {
       <em>Forgot your password?</em>
     </p>
   </Link>
-};
+}

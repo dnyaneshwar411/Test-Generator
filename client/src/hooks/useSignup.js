@@ -10,7 +10,7 @@ export default function useSignup() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
 
-  async function signup({ name, email, password, division, confirmPassword, isAdmin }) {
+  async function signup({ name, email, password, division, confirmPassword }) {
     const info = handleInputErrors({ name, email, password, division, confirmPassword });
     if (!info.status) return info
     try {

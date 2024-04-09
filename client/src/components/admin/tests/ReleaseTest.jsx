@@ -10,7 +10,17 @@ export default function ReleaseTest() {
   const [error, setError] = useState("");
   const { loading, getTests } = useGetTests();
 
-  const { deleteTest, loading: loadingTest } = useTests()
+  const { deleteTest, loading: loadingTest, releaseTest } = useTests()
+
+  async function handleReleaseTest(id) {
+    try {
+      const response = await releaseTest(id);
+      if (!response) setError(response.payload);
+    } catch (error) {
+      setError(error.message)
+    }
+
+  }
 
   useEffect(function () {
     async function retrieve() {
@@ -47,7 +57,11 @@ export default function ReleaseTest() {
             className="bg-red-500 text-white rounded-3xl mx-2"
             onClick={() => deleteTest(test._id)}
           >Delete</button>
-          <button className="bg-blue-500 text-white rounded-3xl mx-2">Release</button>
+          <button
+            disabled={test.isReleased}
+            className={`${test.isReleased ? "bg-blue-300" : "bg-blue-500"} text-white rounded-3xl mx-2`}
+            onClick={() => handleReleaseTest(test._id)}
+          >{test.isReleased ? "Already Released" : "Release Now"}</button>
         </div>
       )}
     </div>
