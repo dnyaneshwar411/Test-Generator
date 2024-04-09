@@ -1,12 +1,14 @@
 import func from "@hapi/joi";
 import Tests from "../model/test_model.js";
+import User from "../model/user_model.js";
 
 export const testCreate = async (req, res) => {
   try {
     const {
-      testName: title,
+      title,
       highestMarks,
       passingScore,
+      domain,
       questions,
       availableAt,
       createdBy,
@@ -18,6 +20,7 @@ export const testCreate = async (req, res) => {
       title,
       highestMarks,
       passingScore,
+      domain,
       questions,
       availableAt,
       createdBy,
@@ -37,6 +40,38 @@ export const getTests = async (req, res) => {
     const tests = await Tests.find().populate("questions"); // Only fetch tests that are available
     res.status(200).json({ tests });
   } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+export const getTestDomainwise = async (req, res) => {
+  try {
+    const tests = await Tests.find();
+
+    if (tests.length === 0) {
+      return res.status(404).json({ message: "No tests found" });
+    }
+
+    // Group tests by domain
+    const testsByDomain = tests.reduce((acc, test) => {
+      if (!acc[test.domain]) {
+        acc[test.domain] = [];
+      }
+      acc[test.domain].push(test);
+      return acc;
+    }, {});
+
+    // Sort domains
+    const sortedDomains = Object.keys(testsByDomain).sort();
+
+    // Construct response object
+    const response = sortedDomains.map((domain) => ({
+      domain,
+      tests: testsByDomain[domain],
+    }));
+
+    res.json(response);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -97,7 +132,16 @@ export const deleteTest = async (req, res) => {
 export const submitAnswers = async (req, res) => {
   try {
     const test = await Tests.findById(req.params.id);
+    const testId = req.params.id;
+    z;
     const answers = req.body.answers;
+    const userId = req.body.userId;
+
+    if (test.participants.includes(userId)) {
+      return res
+        .status(400)
+        .json({ message: "already Submitted answer in this test" });
+    }
 
     let score = 0;
     test.questions.forEach((question, index) => {
@@ -105,6 +149,13 @@ export const submitAnswers = async (req, res) => {
         score++;
       }
     });
+    test.participants.push(userId);
+    await test.save();
+
+    const user = await User.findById(userId);
+    if (user) {
+      user.completedTests.push(testId);
+    }
     res.json({ score });
   } catch (error) {
     res.status(500).json({ message: error.message });

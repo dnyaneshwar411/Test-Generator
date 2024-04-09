@@ -20,10 +20,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    completedTests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
     //completedTests: [{ type: Schema.Types.ObjectId, ref: "Test" }],
   },
   { timestamps: true }
 );
+
 
 const User = mongoose.model("User", userSchema);
 
