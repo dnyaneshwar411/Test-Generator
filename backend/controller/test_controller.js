@@ -189,4 +189,18 @@ export const releaseTest = async (req, res) => {
 };
 
 
+export const isReleasedTest = async (req, res) => {
+  try{
+
+    const test = await Tests.findById(req.params.id);
+
+    if(!test){
+      return res.status(404).json({ message: "Test Not Found" });
+    }
+    return res.status(200).json({ isReleased: test.isReleased });
+  }catch(e){
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
 
