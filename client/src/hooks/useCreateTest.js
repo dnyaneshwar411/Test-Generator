@@ -12,9 +12,9 @@ export default function useCreateTest() {
         body: JSON.stringify(info),
       });
       const data = await response.json();
-      return data;
+      return { status: true, payload: data };
     } catch (error) {
-      return error.message;
+      return { status: false, payload: error.message };
     } finally {
       setLoading(false);
     }

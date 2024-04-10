@@ -14,6 +14,8 @@ export default function Tests() {
   const [tests, setTests] = useState([]);
   const [displayedTests, setDisplayedTests] = useState([]);
 
+  const { _id } = useSelector(store => store.user);
+
   function handleSearch(str) {
     setDisplayedTests(tests.filter(test => test.title.toLowerCase().includes(str.toLowerCase())));
   }
@@ -57,7 +59,10 @@ export default function Tests() {
           {/* <p>Date: 15<sup>th</sup>March 2023</p> */}
           <p>Duration: {test.testDuration} mins</p>
 
-          <p className="text-right text-blue-600 font-semibold">Completed</p>
+          {test.participants.includes(_id)
+            ? <p className="text-right text-blue-600 font-semibold">Given</p>
+            : <p className="text-right text-red-600 font-semibold">Not Given</p>
+          }
         </div>
       )}
 
@@ -69,7 +74,6 @@ export default function Tests() {
 }
 
 function Info({ test }) {
-  console.log(test);
   const { _id } = useSelector(store => store.user)
   const isGiven = test.participants.includes(_id);
   return <div className="mt-8">

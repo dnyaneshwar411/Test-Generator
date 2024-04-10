@@ -9,3 +9,15 @@ export default function enableFullscreen() {
     document.documentElement.msRequestFullscreen();
   }
 }
+
+export function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document?.exitFullscreen();
+  } else if (document.mozExitFullscreen) { /* Firefox */
+    document?.mozExitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    document?.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE/Edge */
+    document?.msExitFullscreen();
+  }
+}

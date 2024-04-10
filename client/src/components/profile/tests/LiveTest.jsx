@@ -4,8 +4,8 @@ import TestSidebar from './TestSidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { goToNextQuestion, goToPreviousQuestion, saveCurrentAnswer, startTest } from '../../../redux/store';
 import Information from './Information';
-import enableFullscreen from '../../../utils/enableFullscreen';
 import ModalEndExam from './ModalEndExam';
+import enableFullscreen from '../../../utils/Fullscreen';
 
 export default function LiveTest() {
   const isStarted = useSelector(store => store.liveTest.isStarted)
@@ -15,7 +15,7 @@ export default function LiveTest() {
 
   function handleStartTest() {
     dispatch(startTest(id));
-    enableFullscreen()
+    enableFullscreen();
   }
 
   useEffect(() => {

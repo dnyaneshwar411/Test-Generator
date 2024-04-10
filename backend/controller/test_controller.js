@@ -34,7 +34,6 @@ export const testCreate = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 export const getTests = async (req, res) => {
   try {
     const tests = await Tests.find().populate("questions"); // Only fetch tests that are available
@@ -75,7 +74,6 @@ export const getTestDomainwise = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 export const gettestByid = async (req, res) => {
   try {
     const { testId } = req.params;
@@ -90,8 +88,7 @@ export const gettestByid = async (req, res) => {
   }
 };
 
-///update test using id
-
+// update test using id
 export const updateTest = async (req, res) => {
   const { id } = req.params;
   try {
@@ -126,8 +123,7 @@ export const deleteTest = async (req, res) => {
   }
 };
 
-////submit answer
-
+// submit answer
 export const submitAnswers = async (req, res) => {
   try {
     const test = await Tests.findById(req.params.id);
@@ -149,19 +145,6 @@ export const submitAnswers = async (req, res) => {
       }
     });
 
-    /*  add a field of type array in user modal "submittedTests:{ testId:_id, answers:answers }"
-     *  submittedTests: [
-              {
-              testId: _id,
-              answers,
-              attemptedOnDate,
-              attempted,
-              wrongAnswers,
-              marksEarned
-              }
-            ]
-     *  add this user in array of participants in tests modal
-     */
 
     test.participants.push(userId);
     await test.save();
@@ -169,6 +152,7 @@ export const submitAnswers = async (req, res) => {
     const user = await User.findById(userId);
     if (user) {
       user.completedTests.push(testId);
+      await user.save();
     }
     res.json({ score });
   } catch (error) {

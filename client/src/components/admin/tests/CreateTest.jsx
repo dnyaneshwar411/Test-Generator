@@ -3,6 +3,7 @@ import { inputStyles, labelStyles } from "../../../utils/data";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import useCreateTest from "../../../hooks/useCreateTest";
 import { useSelector } from "react-redux";
+import Error from "../../Error";
 
 const optionsInitialState = [{ id: 1, value: "" }, { id: 2, value: "" }, { id: 3, value: "" }, { id: 4, value: "" }];
 
@@ -17,6 +18,10 @@ export default function CreateTest() {
   const [options, setOptions] = useState(optionsInitialState);
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const { _id } = useSelector(store => store.user)
+  const [error, setError] = useState();
+  const [isCreated, setIsCreated] = useState(false);
+
 
   const qLength = questions.length;
 
@@ -42,7 +47,7 @@ export default function CreateTest() {
   async function handleForm(e) {
     e.preventDefault();
     const info = {
-      testName: e.target[0].value,
+      title: e.target[0].value,
       // instruction: e.target[1].value,
       // totalNoOfQuestions: e.target[2].value,
       highestMarks: e.target[1].value,
@@ -51,12 +56,15 @@ export default function CreateTest() {
       testDuration: e.target[4].value,
       answerKey: e.target[5].value,
       questions,
-      createdBy: "user 1"
+      createdBy: _id
     }
-
+    console.log(info);
     try {
       const response = await createTest(info);
+      if (!response.status) setError(response.payload)
+      else setIsCreated(true)
     } catch (error) {
+      setError(error.message)
     }
   }
 
@@ -139,7 +147,8 @@ export default function CreateTest() {
         />
 
         <button type="button" className="bg-[#dedede] block ml-auto mb-4 rounded-3xl" onClick={addQuestion}>Add Question</button>
-
+        {isCreated && <div className="py-4 px-4 bg-green-400 my-4">Test created successfully</div>}
+        {error && <Error message={error} setter={setError} />}
         <button className="flex items-center gap-2 bg-[#F5F0E5] mb-4 rounded-3xl" type="button" onClick={openFileManager}>
           <CloudArrowUpIcon className="icon-lg" />
           Upload File
