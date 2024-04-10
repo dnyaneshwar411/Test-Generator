@@ -132,7 +132,6 @@ export const submitAnswers = async (req, res) => {
   try {
     const test = await Tests.findById(req.params.id);
     const testId = req.params.id;
-    z;
     const answers = req.body.answers;
     const userId = req.body.userId;
 
@@ -156,6 +155,7 @@ export const submitAnswers = async (req, res) => {
     const user = await User.findById(userId);
     if (user) {
       user.completedTests.push(testId);
+      await user.save();
     }
     res.json({ score });
   } catch (error) {

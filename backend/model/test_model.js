@@ -14,7 +14,7 @@ const testSchema = new mongoose.Schema({
   },
   domain: {
     type: String,
-    required: true,
+   
   },
   availableAt: Date,
   testDuration: {
