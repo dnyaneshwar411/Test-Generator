@@ -149,19 +149,6 @@ export const submitAnswers = async (req, res) => {
       }
     });
 
-    /*  add a field of type array in user modal "submittedTests:{ testId:_id, answers:answers }"
-     *  submittedTests: [
-              {
-              testId: _id,
-              answers,
-              attemptedOnDate,
-              attempted,
-              wrongAnswers,
-              marksEarned
-              }
-            ]
-     *  add this user in array of participants in tests modal
-     */
 
     test.participants.push(userId);
     await test.save();

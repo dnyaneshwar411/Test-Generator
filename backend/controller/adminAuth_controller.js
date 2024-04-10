@@ -1,5 +1,6 @@
 import Admin from "../model/admin_model.js";
 import bcrypt from "bcrypt";
+import User from "../model/user_model.js";
 
 /// admin  authentication
 
@@ -74,14 +75,49 @@ export const logoutAdmin = (req, res) => {
   }
 };
 
-export const changePassword = (req, res) => {
-  const { password, cpassword } = req.body;
-
+export const changePassword = async (req, res) => {
+  const { password, cpassword, email, isAdmin } = req.body;
+  console.log(req.body);
   try {
-    if (password !== cpassword) res.status(401).json({ error: "passwords do not match" });
+    if (password !== cpassword)
+      res.status(401).json({ error: "passwords do not match" });
+
     // make changes here
-    res.status(200).json({ message: "password changed suxccessfully" });
+    if (!isAdmin) {
+      const user = await User.findByIdAndUpdate(
+        email,
+        {
+          password: password,
+        },
+        {
+          new: true,
+        }
+      );
+      console.log(isAdmin);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+    } else if (isAdmin) {
+      const admin = await Admin.findByIdAndUpdate(
+        email,
+        {
+          password: password,
+        },
+        {
+          new: true,
+        }
+      );
+      console.log(isAdmin);
+      if (!Admin) {
+        return res.status(404).json({ message: "User not found" });
+      }
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
+
+    res.status(200).json({ message: "password changed successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};

@@ -6,7 +6,8 @@ import Loader from "../Loader";
 import useVerifyOTP from "../../hooks/useVerifyOTP";
 import useUpdatePassword from "../../hooks/useUpdatePassword";
 
-const inputStyles = "w-full p-3 mt-2 mb-4 focus:outline-none border-2 rounded-md";
+const inputStyles =
+  "w-full p-3 mt-2 mb-4 focus:outline-none border-2 rounded-md";
 const labelStyles = "font-semibold";
 
 export default function ForgotPassword() {
@@ -40,38 +41,93 @@ export default function ForgotPassword() {
       const response = await verifyOTP(email, otp);
       if (!response.status) setError(response.payload);
       else setIsVerified(true);
-      console.log(response)
+      console.log(response);
     } catch (error) {
       setError(error.message);
     }
   }
 
   async function handleUpdatePassword() {
-    console.log(password, cpassword)
+    console.log(password, cpassword);
     try {
-      const response = await updatePassword(password, cpassword);
+      const response = await updatePassword(password, cpassword, email);
       if (!response.status) setError(response.payload);
       else navigate("/");
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   }
 
-  return <div>
-    {error && <Error message={error} setter={setError} />}
-    <label htmlFor="email" className={labelStyles}>Enter Email ID</label>
-    <input type="email" id="email" placeholder="Email" className={inputStyles} value={email} onChange={e => setEmail(e.target.value)} />
-    {loading && <Loader />}
-    {!isOTPSent && !isVerified && <button className="btn-primary w-full mt-4 rounded-md" onClick={() => handleOTP()}>Send Otp</button>}
+  return (
+    <div>
+      {error && <Error message={error} setter={setError} />}
+      <label htmlFor="email" className={labelStyles}>
+        Enter Email ID
+      </label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        className={inputStyles}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      {loading && <Loader />}
+      {!isOTPSent && !isVerified && (
+        <button
+          className="btn-primary w-full mt-4 rounded-md"
+          onClick={() => handleOTP()}
+        >
+          Send Otp
+        </button>
+      )}
 
+      {isOTPSent && !isVerified && (
+        <input
+          type="number"
+          placeholder="OTP"
+          className={inputStyles}
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+        />
+      )}
+      {loading1 && <Loader />}
+      {isOTPSent && !isVerified && (
+        <button
+          className="btn-primary w-full mt-4 rounded-md"
+          onClick={() => handleVerifyOTP()}
+        >
+          Verify Otp
+        </button>
+      )}
 
-    {isOTPSent && !isVerified && <input type="number" placeholder="OTP" className={inputStyles} value={otp} onChange={e => setOtp(e.target.value)} />}
-    {loading1 && <Loader />}
-    {isOTPSent && !isVerified && <button className="btn-primary w-full mt-4 rounded-md" onClick={() => handleVerifyOTP()}>Verify Otp</button>}
-
-    {isVerified && <input type="text" placeholder="New Password" className={inputStyles} value={password} onChange={e => setPassword(e.target.value)} />}
-    {isVerified && <input type="text" placeholder="Confirm Password" className={inputStyles} value={cpassword} onChange={e => setCPassword(e.target.value)} />}
-    {loading2 && <Loader />}
-    {isVerified && <button className="btn-primary w-full mt-4 rounded-md" onClick={handleUpdatePassword}>Update Password</button>}
-  </div >
+      {isVerified && (
+        <input
+          type="text"
+          placeholder="New Password"
+          className={inputStyles}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      )}
+      {isVerified && (
+        <input
+          type="text"
+          placeholder="Confirm Password"
+          className={inputStyles}
+          value={cpassword}
+          onChange={(e) => setCPassword(e.target.value)}
+        />
+      )}
+      {loading2 && <Loader />}
+      {isVerified && (
+        <button
+          className="btn-primary w-full mt-4 rounded-md"
+          onClick={handleUpdatePassword}
+        >
+          Update Password
+        </button>
+      )}
+    </div>
+  );
 }
