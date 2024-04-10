@@ -130,7 +130,7 @@ export const submitAnswers = async (req, res) => {
     const testId = req.params.id;
     const answers = req.body.answers;
     const userId = req.body.userId;
-    console.log(testId, answers, userId);
+    // console.log(testId, answers, userId);
 
     if (test.participants.includes(userId)) {
       return res
@@ -150,8 +150,12 @@ export const submitAnswers = async (req, res) => {
     await test.save();
 
     const user = await User.findById(userId);
+    const prevTest= user.completedTests
+    const newTest= {testId,useranswers:answers,score}
+    console.log(newTest)
     if (user) {
-      user.completedTests.push(testId);
+
+      user.completedTests=[...prevTest,newTest]
       await user.save();
     }
     res.json({ score });
@@ -183,3 +187,20 @@ export const releaseTest = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+export const isReleasedTest = async (req, res) => {
+  try{
+
+    const test = await Tests.findById(req.params.id);
+
+    if(!test){
+      return res.status(404).json({ message: "Test Not Found" });
+    }
+    return res.status(200).json({ isReleased: test.isReleased });
+  }catch(e){
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+

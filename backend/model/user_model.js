@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -22,15 +23,17 @@ const userSchema = new mongoose.Schema(
     },
     completedTests: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        default: [],
+        testId: {
+          type: String,
+          required: true,
+        },
+        useranswers: [],
+        score: Number,
       },
     ],
   },
   { timestamps: true }
 );
-
 
 const User = mongoose.model("User", userSchema);
 

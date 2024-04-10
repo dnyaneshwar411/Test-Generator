@@ -8,7 +8,7 @@ import {
   deleteTest,
   submitAnswers,
   releaseTest,
- 
+  isReleasedTest
 } from "../controller/test_controller.js";
 
 const router = express.Router();
@@ -24,4 +24,5 @@ router.delete('/deleteTest/:id', deleteTest);
 router.put('/release/:id', releaseTest);
 //submit test, result
 router.post('/submit/:id', submitAnswers);
+router.get('/isReleasedTest/:id',isReleasedTest)
 export default router;
