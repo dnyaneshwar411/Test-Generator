@@ -52,7 +52,7 @@ export default function App() {
         </Route>
 
         <Route index path="/tests/:id/test-live/" element={isLoggedIn && type === "user" ? <LiveTest /> : <Navigate to="/user" />} />
-        <Route index path="/tests/:id/test-completed" element={isLoggedIn && type === "user" ? <TestCompleted /> : <Navigate to="/user" />} />
+        <Route index path="/tests/test-completed" element={isLoggedIn && type === "user" ? <TestCompleted /> : <Navigate to="/user" />} />
 
         <Route path="/user" element={!isLoggedIn ? <Authenticate /> : <Navigate to="/" />}>
           <Route index path="" element={<SignIn />} />

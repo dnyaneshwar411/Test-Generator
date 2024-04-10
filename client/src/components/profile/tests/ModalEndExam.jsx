@@ -6,8 +6,7 @@ export default function ModalEndExam({ children, message }) {
 
   async function handleSubmit() {
     try {
-      const response = await submitTest();
-      console.log(response)
+      await submitTest();
     } catch (error) {
       console.log(error.message)
     }

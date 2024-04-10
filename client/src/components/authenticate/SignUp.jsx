@@ -10,13 +10,13 @@ const labelStyles = "font-semibold";
 export default function SignUp() {
   const { signup } = useSignup();
   const [error, setError] = useState();
-  const [division, setDivision] = useState("B");
+  const [division, setDivision] = useState("A");
 
   async function signUp(e) {
     e.preventDefault();
-    // console.log(e.target)
+    console.log(e.target)
     try {
-      const response = await signup({ name: e.target[0].value, email: e.target[1].value, password: e.target[3].value, division, confirmPassword: e.target[4].value, isAdmin: false })
+      const response = await signup({ name: e.target[0].value, email: e.target[1].value, password: e.target[4].value, division, confirmPassword: e.target[5].value, isAdmin: false })
       if (!response.status) setError(response.message)
     } catch (error) {
       setError(error.message);

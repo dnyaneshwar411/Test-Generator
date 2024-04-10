@@ -134,6 +134,7 @@ export const submitAnswers = async (req, res) => {
     const testId = req.params.id;
     const answers = req.body.answers;
     const userId = req.body.userId;
+    console.log(testId, answers, userId);
 
     if (test.participants.includes(userId)) {
       return res

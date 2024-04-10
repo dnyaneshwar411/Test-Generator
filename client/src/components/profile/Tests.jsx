@@ -1,6 +1,7 @@
 import { MagnifyingGlassIcon, ClockIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 import useGetTests from "../../hooks/useGetTests";
 import Error from "../Error";
 import Loader from "../Loader";
@@ -68,6 +69,9 @@ export default function Tests() {
 }
 
 function Info({ test }) {
+  console.log(test);
+  const { _id } = useSelector(store => store.user)
+  const isGiven = test.participants.includes(_id);
   return <div className="mt-8">
     <h3>{test.title}</h3>
     <p>This test is available from {test.availableAt.substring(0, 10).split("-").join(" / ")}</p>
@@ -93,7 +97,8 @@ function Info({ test }) {
     <h3 className="mt-4">Test ID’s</h3>
     <p>This is for students who are taking the test in a proctored environment.</p>
     <NavLink to={`/tests/${test._id}/test-live/`}>
-      <button className="btn-scnd mt-10 block mx-auto rounded-2xl">Give This Test</button>
+      {!isGiven && <button className="btn-scnd mt-10 block mx-auto rounded-2xl">Give This Test</button>}
+      {isGiven && <button className="btn-scnd opacity-40 mt-10 block mx-auto rounded-2xl cursor-not-allowed" disabled>Already Given</button>}
     </NavLink>
   </div>
 }
