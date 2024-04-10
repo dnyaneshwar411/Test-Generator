@@ -4,7 +4,7 @@ const PASS_REGEX = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]
 export default function useUpdatePassword() {
   const [loading, setLoading] = useState(false);
 
-  async function updatePassword(password, cpassword) {
+  async function updatePassword(password, cpassword, email) {
     try {
       const success = handleInputErrors(password, cpassword);
       if (!success.status) return { status: false, payload: success.payload };
@@ -13,7 +13,7 @@ export default function useUpdatePassword() {
       const response = await fetch(`http://localhost:3000/api/auth/change-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password, cpassword })
+        body: JSON.stringify({ password, cpassword, email })
       });
       const data = await response.json();
       return { status: true, payload: data };

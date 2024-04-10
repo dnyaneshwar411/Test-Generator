@@ -9,7 +9,7 @@ export default function useLogin() {
 
   async function login({ email, password }) {
     const success = handleInputErrors(email, password);
-    if (!success) return;
+    if (!success.status) return { status: false, payload: success.payload };
     setLoading(true);
     try {
       const res = await fetch("http://localhost:3000/api/auth/login", {
@@ -19,14 +19,13 @@ export default function useLogin() {
       });
 
       const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
-      }
+      if (res.status === 400) return { status: false, payload: data.error }
       localStorage.setItem("user", JSON.stringify({ ...data, type: "user" }))
       dispatch(checkIfUserLoggedIn());
-
+      return { status: true }
     } catch (error) {
       toast.error(error.message);
+      return { status: false, payload: error.error };
     } finally {
       setLoading(false);
     }
@@ -34,7 +33,7 @@ export default function useLogin() {
 
   async function loginAdmin({ email, password }) {
     const success = handleInputErrors(email, password);
-    if (!success) return;
+    if (!success.status) return { status: false, payload: success.payload };
     setLoading(true);
     try {
       const res = await fetch("http://localhost:3000/api/auth/adminlogin", {
@@ -42,17 +41,17 @@ export default function useLogin() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
       const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
-      }
+      console.log(data);
+
+      if (data.error) throw new Error(data.error);
+      if (res.status === 400) return { status: false, payload: data.error }
       localStorage.setItem("user", JSON.stringify({ ...data, type: "admin" }))
       dispatch(checkIfUserLoggedIn());
       return { status: true }
     } catch (error) {
       toast.error(error.message);
-      return { status: false, payload: error.message }
+      return { status: false, payload: error.error }
     } finally {
       setLoading(false);
     }
@@ -63,9 +62,7 @@ export default function useLogin() {
 
 function handleInputErrors(email, password) {
   if (!email || !password) {
-    toast.error("Please fill in all fields");
-    return false;
+    return { status: false, payload: "Please fill in all fields" };
   }
-
-  return true;
+  return { status: true };
 }
