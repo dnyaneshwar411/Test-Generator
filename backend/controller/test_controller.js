@@ -132,9 +132,9 @@ export const submitAnswers = async (req, res) => {
   try {
     const test = await Tests.findById(req.params.id);
     const testId = req.params.id;
-    z;
     const answers = req.body.answers;
     const userId = req.body.userId;
+    console.log(testId, answers, userId);
 
     if (test.participants.includes(userId)) {
       return res

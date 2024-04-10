@@ -26,7 +26,7 @@ export default function PreviousResults() {
         </tr>
         <tr>
           <td className="pr-4">Correct Answer: 25/30</td>
-          <td>Wrong Answer: 5/30</td>
+          <td>Wrong Answer: 25/30</td>
         </tr>
         <tr>
           <td className="pr-4">Attempt: 30/30</td>

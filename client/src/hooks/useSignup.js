@@ -11,6 +11,7 @@ export default function useSignup() {
   const dispatch = useDispatch()
 
   async function signup({ name, email, password, division, confirmPassword }) {
+    console.log(name, email, password, division, confirmPassword)
     const info = handleInputErrors({ name, email, password, division, confirmPassword });
     if (!info.status) return info
     try {
