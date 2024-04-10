@@ -17,3 +17,16 @@ export const getg = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const completedTestsByuser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user.completedTests);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

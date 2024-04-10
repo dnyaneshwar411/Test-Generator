@@ -27,7 +27,6 @@ const userSchema = new mongoose.Schema(
         default: [],
       },
     ],
-    //completedTests: [{ type: Schema.Types.ObjectId, ref: "Test" }],
   },
   { timestamps: true }
 );
