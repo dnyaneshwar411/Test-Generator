@@ -15,7 +15,7 @@ export default function Results() {
   useEffect(function () {
     async function retrieve() {
       try {
-        const response = await "";
+        const response = await fetch ("");
         if (response.status) {
           setTests(response.payload);
           setDisplayedTests(response.payload);
