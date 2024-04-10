@@ -15,18 +15,18 @@ export default function Results() {
   useEffect(function () {
     async function retrieve() {
       try {
-        const response = await "";
+        const response = await fetch(`http://localhost:3000/test`);
         if (response.status) {
           setTests(response.payload);
           setDisplayedTests(response.payload);
         }
-        else setError(response.payload)
+        else setError(response.payload);
       } catch (error) {
-        setError(error.message)
+        setError(error.message);
       }
     }
 
-    retrieve();
+    // retrieve();
   }, [])
 
   return <div>
