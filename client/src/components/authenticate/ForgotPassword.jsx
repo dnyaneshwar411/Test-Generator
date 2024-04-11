@@ -83,10 +83,10 @@ export default function ForgotPassword() {
       )}
 
       {isVerified && (
-        <input type="text" placeholder="New Password" className={inputStyles} value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" placeholder="New Password" className={inputStyles} value={password} onChange={(e) => setPassword(e.target.value)} />
       )}
       {isVerified && (
-        <input type="text" placeholder="Confirm Password" className={inputStyles} value={cpassword} onChange={(e) => setCPassword(e.target.value)} />
+        <input type="password" placeholder="Confirm Password" className={inputStyles} value={cpassword} onChange={(e) => setCPassword(e.target.value)} />
       )}
       {loading2 && <Loader />}
       {isVerified && (

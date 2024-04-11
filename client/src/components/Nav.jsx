@@ -17,10 +17,14 @@ export default function Nav({ isLoggedIn }) {
         <img src={logo} className="w-10 h-10 objecct-cover" />
         <h1 >Test Generator</h1>
       </Link>
+      {/* <div className="mx-auto">
+
+        <button className=""><Link to="/user">User</Link></button>
+        <button className=""><Link to="/admin">Admin</Link></button>
+      </div> */}
       {/* <div className="ml-auto">
         <ul className="flex items-center gap-4">
           <li className="font-bold">USER</li>
-          <li><Link to="/user">Sign In</Link></li>
           <li><Link to="/user/sign-up">Sign Up</Link></li>
           <li><Link to="/">Dashboard</Link></li>
         </ul>

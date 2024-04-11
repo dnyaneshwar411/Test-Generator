@@ -84,7 +84,6 @@ export const gettestByid = async (req, res) => {
     
     res.json({ test });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -169,6 +168,8 @@ export const submitAnswers = async (req, res) => {
     console.log(newTest);
     if (user) {
       user.completedTests = [...prevTest, newTest];
+
+   
       await user.save();
     }
     res.json({ score });
@@ -216,13 +217,16 @@ export const isReleasedTest = async (req, res) => {
 
 export const completedTestsByuser = async (req, res) => {
   try {
-    const user = await User.findById(req.params._id);
+    const user = await User.findById(req.params._id).populate("completedTests.testId");
+    console.log(user)
+    // const user = await User.findById(req.params._id).populate("testId");
     console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     res.status(200).json(user.completedTests);
   } catch (error) {
+    console.log(error.message)
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -232,6 +236,25 @@ export const testCreatedbyAdmin = async (req, res) => {
     const tests = await Tests.find({ createdBy: adminId });
     res.status(200).json(tests);
   } catch (e) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+export const gettestByIdPoppulated = async (req, res) => {
+  try {
+    const { testId } = req.params;
+    // console.log(testId)
+    const test = await Tests.findById(testId).populate("participants");
+    const participants = test.participants.map(participant => participant);
+    const completedTests = participants.map(participant => participant.completedTests.find(test => test._id === testId))
+    console.log(participants, completedTests)
+    if (!test) {
+      return res.status(404).json({ message: "Test not found" });
+    }
+    res.json({ test });
+  } catch (error) {
+    console.log(error.message)
     res.status(500).json({ message: "Internal server error" });
   }
 };
