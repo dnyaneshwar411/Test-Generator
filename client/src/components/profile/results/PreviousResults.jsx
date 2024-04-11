@@ -6,6 +6,7 @@ import Loader from "../../Loader";
 import { useSelector } from "react-redux";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { inputStyles } from "../../../utils/data";
 
 export default function PreviousResults() {
   const [test, setTest] = useState({});
@@ -63,10 +64,9 @@ export default function PreviousResults() {
 
   return <div>
     {error && <Error message={error} setter={setError} />}
-    <p className="max-w-[70ch]">You can upload a key to use for grading. You can upload a .csv file with student responses and scores, or a .txt file with student responses only.</p>
     <div className="result-container w-full h-auto flex items-center justify-center">
       <div>
-        <h2 className="mt-10">{test?.title}</h2>
+        <h2>{test?.title}</h2>
         <h3 className="my-4">Candidate Information</h3>
         <p><strong>Name : </strong>{user.name}</p>
         <p><strong>Division : </strong>{user.division}</p>
@@ -95,6 +95,28 @@ export default function PreviousResults() {
 
     {loading && <Loader />}
 
-    <button className="btn-tertiary mt-8" onClick={downloadPDF}>Download Report</button>
+    <button className="btn-tertiary mt-8 mx-auto block" onClick={downloadPDF}>Download Report</button>
+
+    <h2 className="text-center mt-10">List Of Questions</h2>
+    <div className="max-w-[500px] px-10 mx-auto">
+      {test._id && test?.questions.map((question, index) => <Question key={question._id} answer={result.useranswers?.at(index) || -1} question={question} />)}
+    </div>
+
   </div >
+}
+
+
+function Question({ question, answer }) {
+  const isCorrect = question.answer === answer;
+  return <div className="mt-10 border-2">
+    <div className={`border-0 ${inputStyles}`}><strong>{question.id}&#10089; {question.title}</strong></div>
+    <p className="text-right">{isCorrect ? "correct answer" : answer === -1 ? "not answered" : "wrong answer"}</p>
+    {question.options.map((option, index) =>
+      <div key={option.id}
+        className={`px-4 py-2 ${option.id === question.answer ? "bg-green-300" : ""} ${answer === option.id && "bg-red-500"}}`}
+      // && !isCorrect
+      >
+        {index + 1}&#10089; {option.value}
+      </div>)}
+  </div>
 }

@@ -13,7 +13,7 @@ export default function Sidebar() {
   }
 
   return <>
-    <aside className={`fixed ${isToggled ? "left-0" : "left-[-100%]"} top-0 bg-white duration-700 lg:static w-72 p-4 lg:border-0 h-full flex flex-col z-20 border-r-2 border-zinc-950`}>
+    <aside className={`fixed ${isToggled ? "left-0" : "left-[-100%]"} top-0 bg-white duration-700 lg:sticky w-72 p-4 h-[98vh] flex flex-col z-20 border-2`}>
       <UserInfo />
 
       <div className="mt-10">

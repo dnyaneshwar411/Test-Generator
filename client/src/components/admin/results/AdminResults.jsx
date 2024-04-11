@@ -51,8 +51,7 @@ export default function AdminResults() {
           <h3>{test.title}</h3>
         </NavLink>
       </div>))}
-
-      {tests?.length === 0 && <h1>There are no tests to display</h1>}
     </div>
+    {tests?.length === 0 && <h1 className="text-center">You haven&#39;t listed any tests</h1>}
   </div>
 }

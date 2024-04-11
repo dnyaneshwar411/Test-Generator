@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import useGetTests from "../../hooks/useGetTests";
 import Error from "../Error";
 import Loader from "../Loader";
+import TestCart from "./tests/TestCart";
 
 export default function Tests() {
   const { loading, getTests } = useGetTests();
@@ -13,8 +14,6 @@ export default function Tests() {
 
   const [tests, setTests] = useState([]);
   const [displayedTests, setDisplayedTests] = useState([]);
-
-  const { _id } = useSelector(store => store.user);
 
   function handleSearch(str) {
     setDisplayedTests(tests.filter(test => test.title.toLowerCase().includes(str.toLowerCase())));
@@ -52,19 +51,7 @@ export default function Tests() {
     <div className="flex flex-wrap gap-4 mt-10 justify-evnly">
       {loading && <Loader />}
       {error && <Error message={error} setter={setError} />}
-      {displayedTests && displayedTests.map(test =>
-        <div key={test._id} className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] md:max-w-[350px] cursor-pointer select-none" onClick={() => showDetails(test)}>
-          <h3>{test.title}</h3>
-          <p>Date: {test.availableAt.substring(0, 10).split("-").join(" / ")}</p>
-          {/* <p>Date: 15<sup>th</sup>March 2023</p> */}
-          <p>Duration: {test.testDuration} mins</p>
-
-          {test.participants.includes(_id)
-            ? <p className="text-right text-blue-600 font-semibold">Given</p>
-            : <p className="text-right text-red-600 font-semibold">Not Given</p>
-          }
-        </div>
-      )}
+      {displayedTests && displayedTests.map(test => <TestCart key={test._id} test={test} showDetails={showDetails} />)}
     </div>
     {test && <Info test={test} />}
 
@@ -73,14 +60,14 @@ export default function Tests() {
 
 function Info({ test }) {
   const { _id } = useSelector(store => store.user)
-  const isGiven = test.participants.includes(_id);
+  const isGiven = test.participants.findIndex(user => user.userId === _id);
   return <div className="mt-8">
     <h3>{test.title}</h3>
     <p><strong>Test date</strong> - {test.availableAt.substring(0, 10).split("-").join(" / ")}</p>
     <p><strong>Test Time </strong> - {test.testDuration} minutes</p>
     <NavLink to={`/tests/${test._id}/test-live/`}>
-      {!isGiven && <button className="btn-scnd mt-10 block mx-auto rounded-2xl">Give This Test</button>}
-      {isGiven && <button className="btn-scnd opacity-40 mt-10 block mx-auto rounded-2xl cursor-not-allowed" disabled>Already Given</button>}
+      {isGiven === -1 && <button className="btn-scnd mt-10 block mx-auto rounded-2xl">Give This Test</button>}
     </NavLink>
+    {isGiven !== -1 && <button className="btn-scnd opacity-40 mt-10 block mx-auto rounded-2xl cursor-not-allowed" disabled>Already Given</button>}
   </div>
 }

@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { inputStyles, labelStyles } from "../../../utils/data"
 import { useParams } from "react-router-dom"
 import useGetTest from "../../../hooks/useGetTest";
 import Loader from "../../Loader";
 import Error from "../../Error";
-import { useSelector } from "react-redux";
-import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import useTests from "../../../hooks/tests/useTests";
 
 
@@ -13,40 +11,17 @@ export default function EditTest() {
   const { testId } = useParams();
   const { loading, getTest } = useGetTest();
   const [error, setError] = useState();
+  const [success, setSuccess] = useState("");
   const [test, setTest] = useState({});
 
   const { updateTest } = useTests();
 
-  const name = useSelector(store => store.user.name);
-
-  const fileRef = useRef(null);
-
-  const [questionTitle, setQuestionTitle] = useState("");
-  const [correctAnswer, setCorrectAnswer] = useState(null);
-  const [questions, setQuestions] = useState([]);
-
-  const qLength = questions.length;
-
-  function openFileManager() {
-    fileRef.current.click();
-  }
-
-  function addQuestion() {
-    if (questionTitle === "" || !correctAnswer || !options[0] || !options[1] || !options[2] || !options[3]) return
-    const question = {
-      title: questionTitle,
-      id: qLength + 1,
-      answer: correctAnswer
-    }
-    setQuestions(prev => ([...prev, question]));
-    setQuestionTitle("");
-    setCorrectAnswer();
-  }
-
-  async function handleUpdateTest() {
+  async function handleUpdateTest(e) {
+    e.preventDefault();
     try {
       const response = await updateTest(test._id, test);
       if (!response) setError(response.payload);
+      setSuccess("Test updated successfully");
     } catch (error) {
       setError(error.message)
     }
@@ -57,26 +32,6 @@ export default function EditTest() {
     setTest(prev => ({ ...prev, questions }))
   }
 
-  async function handleForm(e) {
-    e.preventDefault();
-    const info = {
-      testName: e.target[0].value,
-      // instruction: e.target[1].value,
-      // totalNoOfQuestions: e.target[2].value,
-      highestMarks: e.target[1].value,
-      passingScore: e.target[2].value,
-      availableAt: e.target[3].value,
-      testDuration: e.target[4].value,
-      answerKey: e.target[5].value,
-      questions,
-      createdBy: "user 1"
-    }
-
-    try {
-      const response = await createTest(info);
-    } catch (error) {
-    }
-  }
 
   useEffect(function () {
     async function retrieve() {
@@ -100,7 +55,7 @@ export default function EditTest() {
       {loading && <Loader />}
       {error && <Error message={error} setter={setError} />}
 
-      <form onSubmit={handleForm} className="h-[75vh] overflow-y-auto">
+      <form onSubmit={handleUpdateTest} className="h-[75vh] overflow-y-auto">
         {test.title && <span>
 
           <label htmlFor="test-name" className={labelStyles}>Test Name</label>
@@ -116,20 +71,23 @@ export default function EditTest() {
             onChange={e => setTest(prev => ({ ...test, passingScore: Number(e.target.value) ? e.target.value : prev.passingScore }))} />
 
           <label htmlFor="availableAt" className={labelStyles}>Available At</label>
-          <input type="datetime-local" id="availableAt" className={inputStyles} placeholder="Available At" value={test.availableAt} onChange={e => setTest({ ...test, availableAt: e.target.value })} />
+          <input type="datetime-local" id="availableAt" className={inputStyles} placeholder="Available At" value={test.availableAt.slice(0, 16)} onChange={e => setTest({ ...test, availableAt: e.target.value })} />
 
           <label htmlFor="testDuration" className={labelStyles}>Test Duration</label>
           <input type="number" id="testDuration" className={inputStyles} placeholder="Test Duration in minutes" min={1} value={test.testDuration} onChange={e => setTest(prev => ({ ...test, testDuration: Number(e.target.value) ? e.target.value : prev.testDuration }))} />
 
-          <input ref={fileRef} type="file" hidden />
         </span>}
 
         {test.questions && test.questions.map(question => <Question question={question} key={question._id} setter={updateQuestions} />)}
-
+        {success && <div
+          className="relative w-full text-center text-green-900 bg-green-100 border-2 border-green-200 mb-10 p-3 rounded-lg"
+        >
+          {success}
+          <span role="button" className="absolute text-2xl right-6 top-1/2 translate-y-[-50%]" onClick={() => setSuccess("")}>x</span>
+        </div>}
         <button
           className="btn-primary text-white block ml-auto rounded-3xl"
           type="submit"
-          onClick={handleUpdateTest}
         >Update Test</button>
       </form>
     </div>

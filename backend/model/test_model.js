@@ -10,7 +10,7 @@ const testSchema = new mongoose.Schema({
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:"Admin",
+    ref: "Admin",
     required: true,
   },
   domain: {
@@ -51,8 +51,13 @@ const testSchema = new mongoose.Schema({
   ],
   participants: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      score: {
+        type: Number
+      },
       default: [],
     },
   ],

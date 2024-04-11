@@ -48,6 +48,8 @@ export default function Results() {
 
     {error && <Error message={error} setter={setError} />}
 
+    {tests.length === 0 && <h1 className="text-center mt-10">You have given no tests</h1>}
+
     <div className="flex flex-wrap gap-4 mt-10 justify-eenly">
       {displayedTests.length > 0 && displayedTests.map(test => (<div key={test._id} className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] sm:max-w-[350px]">
         <NavLink to={`/results/${test.testId._id}`}>

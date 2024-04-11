@@ -145,11 +145,11 @@ export const submitAnswers = async (req, res) => {
     const answers = req.body.answers;
     const userId = req.body.userId;
     // console.log(testId, answers, userId);
-
-    if (test.participants.includes(userId)) {
+    const isSubmitted = test.participants.findIndex(user => user.userId === userId);
+    if (isSubmitted !== -1) {
       return res
         .status(400)
-        .json({ message: "already Submitted answer in this test" });
+        .json({ message: "You already Submitted answer in this test" });
     }
 
     let score = 0;
@@ -159,17 +159,14 @@ export const submitAnswers = async (req, res) => {
       }
     });
 
-    test.participants.push(userId);
+    test.participants.push({ userId, score });
     await test.save();
 
     const user = await User.findById(userId);
     const prevTest = user.completedTests;
     const newTest = { testId, useranswers: answers, score };
-    console.log(newTest);
     if (user) {
       user.completedTests = [...prevTest, newTest];
-
-
       await user.save();
     }
     res.json({ score });
@@ -218,9 +215,6 @@ export const isReleasedTest = async (req, res) => {
 export const completedTestsByuser = async (req, res) => {
   try {
     const user = await User.findById(req.params._id).populate("completedTests.testId");
-    console.log(user)
-    // const user = await User.findById(req.params._id).populate("testId");
-    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -240,15 +234,11 @@ export const testCreatedbyAdmin = async (req, res) => {
   }
 };
 
-
 export const gettestByIdPoppulated = async (req, res) => {
   try {
     const { testId } = req.params;
     // console.log(testId)
-    const test = await Tests.findById(testId).populate("participants");
-    const participants = test.participants.map(participant => participant);
-    const completedTests = participants.map(participant => participant.completedTests.find(test => test._id === testId))
-    console.log(participants, completedTests)
+    const test = await Tests.findById(testId).populate("participants.userId");
     if (!test) {
       return res.status(404).json({ message: "Test not found" });
     }

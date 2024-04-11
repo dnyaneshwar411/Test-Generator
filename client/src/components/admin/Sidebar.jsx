@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-import { UsersIcon, PresentationChartLineIcon, ClipboardDocumentListIcon, ChartBarIcon, ArrowLeftStartOnRectangleIcon, Bars2Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { UsersIcon, PresentationChartLineIcon, ClipboardDocumentListIcon, ChartBarIcon, Bars2Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import { useState } from "react";
 import UserInfo from "../profile/UserInfo";
@@ -13,7 +13,7 @@ export default function Sidebar() {
   }
 
   return <>
-    <aside className={`fixed ${isToggled ? "left-0" : "left-[-100%]"} top-0 bg-white duration-700 lg:static w-72 p-4 border-r-2 lg:border-0 h-full flex flex-col z-20`}>
+    <aside className={`fixed ${isToggled ? "left-0" : "left-[-100%]"} top-0 bg-white duration-700 lg:sticky w-72 p-4 border-2 h-[98vh] flex flex-col z-20`}>
       <UserInfo />
 
       <div className="mt-10">

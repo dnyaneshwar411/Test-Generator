@@ -23,8 +23,8 @@ export default function SignInAdmin() {
     <div>
       {error && <Error message={error} setter={setError} />}
       <form onSubmit={signIn}>
-        <label htmlFor="username" className={labelStyles}>Username</label>
-        <input type="text" id="username" placeholder="user" className={inputStyles} />
+        <label htmlFor="username" className={labelStyles}>Email</label>
+        <input type="text" id="username" placeholder="email" className={inputStyles} />
 
         <label htmlFor="password" className={labelStyles}>Password</label>
         <input type="password" id="password" placeholder="password" className={inputStyles} />

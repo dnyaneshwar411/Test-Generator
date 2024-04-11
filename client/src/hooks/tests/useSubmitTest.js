@@ -19,6 +19,7 @@ export default function useSubmitTest() {
         body: JSON.stringify({ answers: userResponses, id: _id, userId }),
       })
       const data = await response.json();
+      console.log(data)
       dispatch(endTest());
       navigate("/tests/test-completed");
       return { status: true, payload: data };

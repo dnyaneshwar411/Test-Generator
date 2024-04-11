@@ -10,7 +10,7 @@ const optionsInitialState = [{ id: 1, value: "" }, { id: 2, value: "" }, { id: 3
 export default function CreateTest() {
   const { loading, createTest } = useCreateTest();
 
-  const name = useSelector(store => store.user.name);
+  const [domain, setDomain] = useState("Mathematics");
 
   const fileRef = useRef(null);
 
@@ -24,11 +24,6 @@ export default function CreateTest() {
 
 
   const qLength = questions.length;
-
-  function openFileManager() {
-    // if (formRef.target[5].value) return
-    fileRef.current.click();
-  }
 
   function addQuestion() {
     if (questionTitle === "" || !correctAnswer || !options[0] || !options[1] || !options[2] || !options[3]) return
@@ -48,15 +43,14 @@ export default function CreateTest() {
     e.preventDefault();
     const info = {
       title: e.target[0].value,
-      // instruction: e.target[1].value,
-      // totalNoOfQuestions: e.target[2].value,
       highestMarks: e.target[1].value,
       passingScore: e.target[2].value,
       availableAt: e.target[3].value,
       testDuration: e.target[4].value,
       answerKey: e.target[5].value,
       questions,
-      createdBy: _id
+      createdBy: _id,
+      domain
     }
     console.log(info);
     try {
@@ -145,7 +139,11 @@ export default function CreateTest() {
           value={Number(correctAnswer)}
           onChange={e => setCorrectAnswer(prev => e.target.value >= 1 && e.target.value <= 4 ? Number(e.target.value) : prev)}
         />
-
+        <select value={domain} onChange={e => setDomain(e.target.value)} className={inputStyles}>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Programming">Programming</option>
+          <option value="Science">Science</option>
+        </select>
         <button type="button" className="bg-[#dedede] block ml-auto mb-4 rounded-3xl" onClick={addQuestion}>Add Question</button>
         {isCreated && <div className="py-4 px-4 bg-green-400 my-4">Test created successfully</div>}
         {error && <Error message={error} setter={setError} />}

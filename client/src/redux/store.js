@@ -5,7 +5,9 @@ const userInitialState = {
   name: "",
   email: "",
   division: "",
-  isLoggedIn: false
+  isLoggedIn: false,
+  isAvailable: false,
+  isFetched: false
 }
 
 function userReducer(state = userInitialState, action) {
@@ -43,7 +45,7 @@ const liveTestInitialState = {
 function liveTestReducer(state = liveTestInitialState, action) {
   switch (action.type) {
     case "liveTest/start-test":
-      return { ...state, ...action.payload, activeQuestion: action.payload.questions[0], userResponses: Array.from({ length: action.payload.questions.length }, () => (-1)) };
+      return { ...state, ...action.payload, isStarted: action.payload.isAvailable, activeQuestionNo: 1, activeQuestion: action.payload.questions[0], userResponses: Array.from({ length: action.payload.questions.length }, () => (-1)) };
 
     case "liveTest/set-currentQuestion":
       return { ...state, activeQuestionNo: action.payload, activeQuestion: state.questions[action.payload - 1] }
@@ -103,8 +105,10 @@ export function logout() {
 export function startTest(id) {
   return async function (dispatch) {
     const response = await fetch(`http://localhost:3000/test/get-test-random-order/${id}`);
-    const data = await response.json()
-    dispatch({ type: "liveTest/start-test", payload: ({ ...data.test, isStarted: true, activeQuestionNo: 1 }) })
+    const data = await response.json();
+    const testTime = new Date(data.test.availableAt)
+    const current = new Date();
+    dispatch({ type: "liveTest/start-test", payload: ({ ...data.test, isFetched: true, isAvailable: current >= testTime }) })
   }
 }
 
