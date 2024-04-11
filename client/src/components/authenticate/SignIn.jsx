@@ -34,7 +34,7 @@ export default function SignIn() {
           <label htmlFor="rememberMe" className="cursor-pointer select-none">Remember Me</label>
         </div> */}
 
-        <ForgotLink />
+        <ForgotLink url="user" />
         {error && <Error message={error} setter={setError} />}
         <button type="submit" className="btn-primary w-full mt-4 rounded-md">Sign in</button>
       </form>

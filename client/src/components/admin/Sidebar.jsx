@@ -27,11 +27,6 @@ export default function Sidebar() {
           <span className="text-[16px]">Tests</span>
         </NavLink>
 
-        {/* <NavLink to="/admin/upload-key" className="flex items-start gap-2 p-2 mb-2">
-          <ClipboardDocumentListIcon className="icon-lg" />
-          <span className="text-[16px]">Upload Key</span>
-        </NavLink> */}
-
         <NavLink to="/admin/users" className="flex items-start gap-2 p-2 mb-2">
           <UsersIcon className="icon-lg" />
           <span className="text-[16px]">Users</span>
@@ -43,11 +38,6 @@ export default function Sidebar() {
         </NavLink>
       </div>
 
-      <button className="mt-auto flex items-start gap-2 p-2">
-        <ArrowLeftStartOnRectangleIcon className="icon-lg" />
-        <span>Log Out</span>
-      </button>
-
     </aside>
 
     <button className="bg-[#F5F0E5] fixed right-4 top-4 p-3 aspect-square lg:hidden z-20 rounded-3xl" onClick={toggleSidebar}>
@@ -55,4 +45,4 @@ export default function Sidebar() {
       {isToggled && <XMarkIcon className="icon-lg" />}
     </button>
   </>
-};
+}

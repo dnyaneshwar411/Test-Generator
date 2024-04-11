@@ -37,12 +37,6 @@ export default function SignUpAdmin() {
         <label htmlFor="cpassword" className={labelStyles}>Confirm Password</label>
         <input type="password" id="cpassword" placeholder="confirm password" className={inputStyles} />
 
-        {/* <div>
-          <input type="checkbox" id="rememberMe" className="mr-2 cursor-pointer" />
-          <label htmlFor="rememberMe" className="cursor-pointer select-none">Remember Me</label>
-        </div> */}
-
-        {/* <ForgotLink /> */}
 
         <button type="submit" className="btn-primary w-full mt-4 rounded-md">Sign up</button>
       </form>

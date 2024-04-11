@@ -68,6 +68,6 @@ function handleInputErrors(email, password) {
   if (!email || !password) {
     return { status: false, payload: "Please fill in all fields" };
   }
-  if (password.length < 8) return { status: false, payload: "Enter correct password" }
+  // if (password.length < 8) return { status: false, payload: "Enter correct password" }
   return { status: true };
 }

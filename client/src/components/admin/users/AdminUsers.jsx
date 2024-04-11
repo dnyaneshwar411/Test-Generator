@@ -1,17 +1,32 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loader from "../../Loader";
 import Error from "../../Error";
+
+import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [displayedUsers, setDisplayedUsers] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState()
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
 
+  const [filters, setFilters] = useState([false, false])
 
   function handleSearch(str) {
     setDisplayedUsers(users.filter(user => user.name.toLowerCase().includes(str.toLowerCase())));
+  }
+
+  function handleSortByDivision() {
+    const newUsers = filters[0] ? users.slice().sort((a, b) => a.division > b.division) : users.slice().sort((a, b) => a.division < b.division);
+    setDisplayedUsers(newUsers);
+    setFilters(prev => [!prev[0], prev[1]])
+  }
+
+  function handleSortByNoTests() {
+    const newUsers = filters[1] ? users.slice().sort((a, b) => a.completedTests.length < b.completedTests.length) : users.slice().sort((a, b) => a.division < b.division);
+    setDisplayedUsers(newUsers);
+    setFilters(prev => [prev[0], !prev[1]]);
   }
 
   useEffect(function () {
@@ -40,26 +55,32 @@ export default function AdminUsers() {
       <input type="text" id="search" className="w-full bg-transparent pl-8" placeholder="search for users" onChange={e => handleSearch(e.target.value)} />
     </div>
 
-    {loading && <Loader />}
-    {error && <Error message={error} setter={setError} />}
 
-    <div className="border-2 rounded-xl">
+    <div className="border-2 rounded-xl mt-4">
       <h1 className="p-4">Users</h1>
+      {loading && <Loader />}
+      {error && <Error message={error} setter={setError} />}
       <div className="overflow-x-auto">
         <div className="font-bold flex items-center justify-start border-t-2 p-4">
           <p className="min-w-40 px-4">Name</p>
           {/* <p className="min-w-40 px-4">Username</p> */}
-          <p className="w-72 px-4 ">Email</p>
-          <p className="min-w-40 px-4">Division</p>
-          <p className="min-w-40 px-4">Tests Given</p>
+          <p className="w-72 px-4 min-w-40">Email</p>
+          <div role="button" className="hover:text-green-600 flex items-center gap-2 min-w-40" onClick={handleSortByDivision}>
+            <p>Division</p>
+            <ArrowsUpDownIcon className="w-6 mr-4" />
+          </div>
+          <div role="button" className="hover:text-green-600 flex items-center gap-2 min-w-40" onClick={handleSortByNoTests}>
+            <p>Tests Given</p>
+            <ArrowsUpDownIcon className="w-6 mr-4" />
+          </div>
         </div>
-        {displayedUsers.map(user =>
+        {displayedUsers?.map(user =>
           <div key={user._id} className="flex items-center justify-start border-t-2 p-4">
             <p className="min-w-40 px-4">{user.name}</p>
             {/* <p className="min-w-40 px-4">john</p> */}
             <p className="w-72 px-4 ">{user.email}</p>
             <p className="min-w-40 px-4">{user.division}</p>
-            <p className="min-w-40 px-4">{user?.tests?.length || 0}</p>
+            <p className="min-w-40 px-4">{user?.completedTests?.length || 0}</p>
           </div>
         )}
       </div>

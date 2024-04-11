@@ -34,7 +34,7 @@ export default function SignInAdmin() {
           <label htmlFor="rememberMe" className="cursor-pointer select-none">Remember Me</label>
         </div>
 
-        <ForgotLink />
+        <ForgotLink url="admin" />
 
         <button type="submit" className="btn-primary w-full mt-4 rounded-md">Sign in</button>
       </form>

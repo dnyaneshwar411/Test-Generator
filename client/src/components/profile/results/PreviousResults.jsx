@@ -74,6 +74,6 @@ export default function PreviousResults() {
 
     {loading && <Loader />}
 
-    {/* <button className="btn-tertiary mt-8">Download Report</button> */}
+    <button className="btn-tertiary mt-8">Download Report</button>
   </div >
 }

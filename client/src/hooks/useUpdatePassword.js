@@ -7,7 +7,7 @@ const PASS_REGEX = new RegExp(
 export default function useUpdatePassword() {
   const [loading, setLoading] = useState(false);
 
-  async function updatePassword(password, cpassword, email) {
+  async function updatePassword(password, cpassword, email, isAdmin) {
     try {
       const success = handleInputErrors(password, cpassword);
       if (!success.status) return { status: false, payload: success.payload };
@@ -16,7 +16,7 @@ export default function useUpdatePassword() {
       const response = await fetch(`http://localhost:3000/api/auth/change-password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password, cpassword, email, isAdmin: false })
+        body: JSON.stringify({ password, cpassword, email, isAdmin: isAdmin })
       });
       const data = await response.json();
       if (response.status === 500) return { status: false, payload: data.error }

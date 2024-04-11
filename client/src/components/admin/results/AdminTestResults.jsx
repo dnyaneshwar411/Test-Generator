@@ -18,7 +18,7 @@ export default function AdminTestResults() {
         const response = await fetch(`http://localhost:3000/test/get-test-by-id/${id}/populate`);
         const data = await response.json()
         // if (!response.status) setError(response.payload);
-        console.log(data)
+        // console.log(data)
         // setTest(data.test);
       } catch (error) {
         setError(error.message);

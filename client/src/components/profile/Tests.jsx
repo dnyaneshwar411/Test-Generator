@@ -53,7 +53,7 @@ export default function Tests() {
       {loading && <Loader />}
       {error && <Error message={error} setter={setError} />}
       {displayedTests && displayedTests.map(test =>
-        <div key={test._id} className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] md:max-w-[350px] cursor-pointer" onClick={() => showDetails(test)}>
+        <div key={test._id} className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] md:max-w-[350px] cursor-pointer select-none" onClick={() => showDetails(test)}>
           <h3>{test.title}</h3>
           <p>Date: {test.availableAt.substring(0, 10).split("-").join(" / ")}</p>
           {/* <p>Date: 15<sup>th</sup>March 2023</p> */}
@@ -65,9 +65,7 @@ export default function Tests() {
           }
         </div>
       )}
-
     </div>
-
     {test && <Info test={test} />}
 
   </div>
@@ -80,27 +78,6 @@ function Info({ test }) {
     <h3>{test.title}</h3>
     <p><strong>Test date</strong> - {test.availableAt.substring(0, 10).split("-").join(" / ")}</p>
     <p><strong>Test Time </strong> - {test.testDuration} minutes</p>
-    {/* <h3 className="mt-4">Test Link</h3>
-    <p>This link will be active 15 minute before the test begins</p> */}
-
-    {/* <div className="flex items-center gap-2 mt-4">
-      <ClockIcon className="w-10 h-10" />
-      <div>
-        <p>Test Time</p>
-        <span>9:00 am - 10:00am</span>
-      </div>
-    </div> */}
-
-    {/* <div className="flex items-center gap-2 mt-4">
-      <GlobeAltIcon className="w-10 h-10" />
-      <div>
-        <p>Test URL</p>
-        <span>This link will be active 15 minutes before the test in a proctored environment.</span>
-      </div>
-    </div> */}
-
-    {/* <h3 className="mt-4">Test ID’s</h3>
-    <p>This is for students who are taking the test in a proctored environment.</p> */}
     <NavLink to={`/tests/${test._id}/test-live/`}>
       {!isGiven && <button className="btn-scnd mt-10 block mx-auto rounded-2xl">Give This Test</button>}
       {isGiven && <button className="btn-scnd opacity-40 mt-10 block mx-auto rounded-2xl cursor-not-allowed" disabled>Already Given</button>}

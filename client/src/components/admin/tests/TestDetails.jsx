@@ -3,16 +3,13 @@ import { useParams } from "react-router-dom"
 import useGetTest from "../../../hooks/useGetTest";
 import Error from "../../Error";
 import Loader from "../../Loader";
-import { useSelector } from "react-redux";
 
 export default function TestDetails() {
   const { id } = useParams();
 
-  const { _id } = useSelector(store => store.user);
   const { loading, getTest } = useGetTest();
   const [test, setTest] = useState();
   const [error, setError] = useState();
-  const isCompleted = test?.participants.includes(_id);
 
   useEffect(function () {
     async function retrieve() {
@@ -42,14 +39,11 @@ export default function TestDetails() {
         </tr>
         <tr>
           <td className="pr-4"><b>Test Date:</b> {test.availableAt.substring(0, 10)}</td>
-          <td><b>Test Available From:</b> {test.availableAt.substring(11, 19)}</td>
+          <td className="pr-4"><b>Passing Marks:</b> {test.passingScore}</td>
         </tr>
         <tr>
           <td className="pr-4"><b>Test Question:</b> {test.questions.length} Question of 1 Marks Each</td>
           <td><b>Total Marks:</b> {test.highestMarks}</td>
-        </tr>
-        <tr>
-          <td className="pr-4"><b>Passing Marks:</b> {test.passingScore}</td>
         </tr>
       </tbody>
     </table>}

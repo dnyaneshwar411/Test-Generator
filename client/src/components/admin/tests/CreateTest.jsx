@@ -149,10 +149,6 @@ export default function CreateTest() {
         <button type="button" className="bg-[#dedede] block ml-auto mb-4 rounded-3xl" onClick={addQuestion}>Add Question</button>
         {isCreated && <div className="py-4 px-4 bg-green-400 my-4">Test created successfully</div>}
         {error && <Error message={error} setter={setError} />}
-        <button className="flex items-center gap-2 bg-[#F5F0E5] mb-4 rounded-3xl" type="button" onClick={openFileManager}>
-          <CloudArrowUpIcon className="icon-lg" />
-          Upload File
-        </button>
         <button className="btn-primary text-white block ml-auto rounded-3xl" type="submit">Create Test</button>
       </form>
     </div>

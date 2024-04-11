@@ -8,7 +8,6 @@ export default function UserInfo() {
     <img src={user} className="w-12 h-12 object-cover" />
     <div>
       <h3 className="leading-5 text-xl font-semibold">{name}</h3>
-      <p className="text-slate-400">Free Account</p>
     </div>
   </div>
 }

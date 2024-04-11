@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import useSendOTP from "../../hooks/useSendOTP";
 import Error from "../Error";
 import Loader from "../Loader";
@@ -11,6 +11,9 @@ const inputStyles =
 const labelStyles = "font-semibold";
 
 export default function ForgotPassword() {
+  const url = useLocation();
+  const isAdmin = url.pathname.includes("admin");
+
   const [email, setEmail] = useState("");
   const [error, setError] = useState();
   const [isOTPSent, setIsOTPSent] = useState(false);
@@ -50,7 +53,7 @@ export default function ForgotPassword() {
   async function handleUpdatePassword() {
     console.log(password, cpassword);
     try {
-      const response = await updatePassword(password, cpassword, email);
+      const response = await updatePassword(password, cpassword, email, isAdmin);
       if (response.status) navigate("/");
       else setError(response.payload);
     } catch (error) {
