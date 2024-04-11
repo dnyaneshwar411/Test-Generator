@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { checkIfUserLoggedIn } from "../redux/store";
 
+const MAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
 export default function useLogin() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
@@ -44,8 +46,9 @@ export default function useLogin() {
       const data = await res.json();
       console.log(data);
 
-      if (data.error) throw new Error(data.error);
+      // if (data.error) throw new Error(data.error);
       if (res.status === 400) return { status: false, payload: data.error }
+      // console.log(res)
       localStorage.setItem("user", JSON.stringify({ ...data, type: "admin" }))
       dispatch(checkIfUserLoggedIn());
       return { status: true }
@@ -61,8 +64,10 @@ export default function useLogin() {
 }
 
 function handleInputErrors(email, password) {
+  if (!MAIL_REGEX.test(email)) return { status: false, payload: "Enter correct email" }
   if (!email || !password) {
     return { status: false, payload: "Please fill in all fields" };
   }
+  if (password.length < 8) return { status: false, payload: "Enter correct password" }
   return { status: true };
 }

@@ -2,26 +2,32 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import Loader from "../../Loader";
 import Error from "../../Error";
+import useGetTest from "../../../hooks/useGetTest";
 
 export default function AdminTestResults() {
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
+  const [test, setTest] = useState({});
   const [error, setError] = useState()
   const [users, setUsers] = useState([]);
+  const { loading, getTest } = useGetTest();
 
   useEffect(function () {
+
     async function retrieve() {
       try {
-        const response = await fetch("");
-        const data = response.json();
+        const response = await fetch(`http://localhost:3000/test/get-test-by-id/${id}/populate`);
+        const data = await response.json()
+        // if (!response.status) setError(response.payload);
         console.log(data)
+        // setTest(data.test);
       } catch (error) {
         setError(error.message);
       }
     }
+    retrieve()
   }, [])
   return <div>
-    <h1>List of Students Given this test - <span className="text-green-500">Test 1</span></h1>
+    <h1>List of Students Given this test - <span className="text-green-500">{test?.title}</span></h1>
 
     {loading && <Loader />}
     {error && <Error message={error} setter={setError} />}

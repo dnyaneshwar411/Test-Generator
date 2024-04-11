@@ -9,7 +9,9 @@ import {
   submitAnswers,
   releaseTest,
   isReleasedTest,
-  completedTestsByuser
+  completedTestsByuser,
+  testCreatedbyAdmin,
+  gettestByIdPoppulated
 } from "../controller/test_controller.js";
 
 const router = express.Router();
@@ -27,4 +29,6 @@ router.put('/release/:id', releaseTest);
 router.post('/submit/:id', submitAnswers);
 router.get('/isReleasedTest/:id', isReleasedTest)
 router.get("/completedTestsByuser/:_id", completedTestsByuser)
+router.get("/testCreatedbyAdmin/:id", testCreatedbyAdmin)
+router.get("/get-test-by-id/:testId/populate", gettestByIdPoppulated)
 export default router;

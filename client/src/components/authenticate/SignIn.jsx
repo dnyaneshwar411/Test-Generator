@@ -27,12 +27,12 @@ export default function SignIn() {
         <input type="text" id="username" placeholder="user" className={inputStyles} />
 
         <label htmlFor="password" className={labelStyles}>Password</label>
-        <input type="text" id="password" placeholder="password" className={inputStyles} />
+        <input type="password" id="password" placeholder="password" className={inputStyles} />
 
-        <div>
+        {/* <div>
           <input type="checkbox" id="rememberMe" className="mr-2 cursor-pointer" />
           <label htmlFor="rememberMe" className="cursor-pointer select-none">Remember Me</label>
-        </div>
+        </div> */}
 
         <ForgotLink />
         {error && <Error message={error} setter={setError} />}

@@ -48,7 +48,7 @@ export default function AdminUsers() {
       <div className="overflow-x-auto">
         <div className="font-bold flex items-center justify-start border-t-2 p-4">
           <p className="min-w-40 px-4">Name</p>
-          <p className="min-w-40 px-4">Username</p>
+          {/* <p className="min-w-40 px-4">Username</p> */}
           <p className="w-72 px-4 ">Email</p>
           <p className="min-w-40 px-4">Division</p>
           <p className="min-w-40 px-4">Tests Given</p>
@@ -56,7 +56,7 @@ export default function AdminUsers() {
         {displayedUsers.map(user =>
           <div key={user._id} className="flex items-center justify-start border-t-2 p-4">
             <p className="min-w-40 px-4">{user.name}</p>
-            <p className="min-w-40 px-4">john</p>
+            {/* <p className="min-w-40 px-4">john</p> */}
             <p className="w-72 px-4 ">{user.email}</p>
             <p className="min-w-40 px-4">{user.division}</p>
             <p className="min-w-40 px-4">{user?.tests?.length || 0}</p>
