@@ -215,3 +215,12 @@ export const completedTestsByuser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+export const testCreatedbyAdmin =async (req, res)=>{
+  try{
+    const adminId = req.params.id;
+    const tests = await Tests.find({ createdBy: adminId })
+    res.status(200).json(tests);
+  }catch(e){
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
