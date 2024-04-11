@@ -81,11 +81,26 @@ export const gettestByid = async (req, res) => {
     if (!test) {
       return res.status(404).json({ message: "Test not found" });
     }
+    
     res.json({ test });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+export const getTestRandomOrderQuestion =async(req,res)=>{
+  try{
+   
+      const { testId } = req.params;
+      const test = await Tests.findById(testId);
+      if (!test) {
+        return res.status(404).json({ message: "Test not found" });
+      }
+      test.questions = test.questions.sort(() => Math.random() - 0.5);
+      res.json({ test });
+  }catch(e){
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 // update test using id
 export const updateTest = async (req, res) => {
@@ -144,17 +159,17 @@ export const submitAnswers = async (req, res) => {
       }
     });
 
-
     test.participants.push(userId);
     await test.save();
 
     const user = await User.findById(userId);
-    const prevTest = user.completedTests
-    const newTest = { testId, useranswers: answers, score }
-    console.log(newTest)
+    const prevTest = user.completedTests;
+    const newTest = { testId, useranswers: answers, score };
+    console.log(newTest);
     if (user) {
+      user.completedTests = [...prevTest, newTest];
 
-      user.completedTests = [...prevTest, newTest]
+   
       await user.save();
     }
     res.json({ score });
@@ -189,7 +204,6 @@ export const releaseTest = async (req, res) => {
 
 export const isReleasedTest = async (req, res) => {
   try {
-
     const test = await Tests.findById(req.params.id);
 
     if (!test) {
@@ -199,7 +213,7 @@ export const isReleasedTest = async (req, res) => {
   } catch (e) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
 
 export const completedTestsByuser = async (req, res) => {
   try {
@@ -219,12 +233,13 @@ export const completedTestsByuser = async (req, res) => {
 export const testCreatedbyAdmin = async (req, res) => {
   try {
     const adminId = req.params.id;
-    const tests = await Tests.find({ createdBy: adminId })
+    const tests = await Tests.find({ createdBy: adminId });
     res.status(200).json(tests);
   } catch (e) {
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
+
 
 export const gettestByIdPoppulated = async (req, res) => {
   try {
