@@ -30,6 +30,7 @@ import AdminUsers from "./components/admin/users/AdminUsers";
 import AdminResults from "./components/admin/results/AdminResults";
 import { useSelector } from "react-redux";
 import EditTest from "./components/admin/tests/EditTest";
+import AdminTestResults from "./components/admin/results/AdminTestResults";
 
 export default function App() {
   const { isStarted, _id } = useSelector(store => store.liveTest);
@@ -78,6 +79,7 @@ export default function App() {
           <Route path="upload-key" element={<UploadKey />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="results" element={<AdminResults />} />
+          <Route path="results/:id" element={<AdminTestResults />} />
         </Route >
       </Routes >
     </>

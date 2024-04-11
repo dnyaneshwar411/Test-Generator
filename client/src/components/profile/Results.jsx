@@ -3,30 +3,36 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Error from "../Error";
 
+import { useSelector } from "react-redux";
+
 export default function Results() {
   const [tests, setTests] = useState([]);
   const [displayedTests, setDisplayedTests] = useState([]);
   const [error, setError] = useState();
 
+  const { _id } = useSelector(store => store.user);
+
   function handleSearch(str) {
-    setDisplayedTests(tests.filter(test => test.title.toLowerCase().includes(str.toLowerCase())));
+    setDisplayedTests(tests.filter(test => test.testId.title.toLowerCase().includes(str.toLowerCase())));
   }
 
   useEffect(function () {
     async function retrieve() {
       try {
-        const response = await fetch(`http://localhost:3000/test`);
+        const response = await fetch(`http://localhost:3000/test/completedTestsByuser/${_id}`);
+        const data = await response.json();
+        console.log(data[0])
         if (response.status) {
-          setTests(response.payload);
-          setDisplayedTests(response.payload);
+          setTests(data);
+          setDisplayedTests(data);
         }
-        else setError(response.payload);
+        // else setError(response.payload);
       } catch (error) {
         setError(error.message);
       }
     }
 
-    // retrieve();
+    retrieve();
   }, [])
 
   return <div>
@@ -41,13 +47,13 @@ export default function Results() {
 
     <div className="flex flex-wrap gap-4 mt-10 justify-eenly">
 
-      {displayedTests.map(test => <div key={test._id} className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] sm:max-w-[350px]">
-        <NavLink to="/results/0123">
-          <h3>TEST1</h3>
+      {displayedTests.map(test => <div key={test.testId._id} className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] sm:max-w-[350px]">
+        <NavLink to={`/results/${test.testId._id}`}>
+          <h3>{test.testId.title}</h3>
         </NavLink>
       </div>)}
 
-      <div className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] sm:max-w-[350px]">
+      {/* <div className="bg-[#f5f0e5] grow p-4 rounded-lg w-full md:w-[49%] sm:max-w-[350px]">
         <NavLink to="/results/0123">
           <h3>TEST1</h3>
         </NavLink>
@@ -63,7 +69,7 @@ export default function Results() {
         <NavLink to="/results/789">
           <h3>TEST3</h3>
         </NavLink>
-      </div>
+      </div> */}
     </div>
-  </div>
+  </div >
 }

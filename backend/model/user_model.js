@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema(
     completedTests: [
       {
         testId: {
-          type: String,
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Tests",
           required: true,
         },
         useranswers: [],
