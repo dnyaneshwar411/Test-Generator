@@ -86,8 +86,8 @@ function Question() {
 
   useEffect(function () {
     // console.log(userResponses, userResponses[activeQuestionNo - 1]);
-    setSelectedOption(userResponses[activeQuestionNo - 1])
-  }, [activeQuestionNo])
+    setSelectedOption(userResponses[activeQuestion.id - 1])
+  }, [activeQuestion])
 
   return <div className="mt-10">
     <h1>{activeQuestion.title}</h1>

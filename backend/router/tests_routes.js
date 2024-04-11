@@ -11,7 +11,8 @@ import {
   isReleasedTest,
   completedTestsByuser,
   testCreatedbyAdmin,
-  gettestByIdPoppulated
+  gettestByIdPoppulated,
+  getTestRandomOrderQuestion
 } from "../controller/test_controller.js";
 
 const router = express.Router();
@@ -19,6 +20,8 @@ const router = express.Router();
 router.get("/getTests", getTests);
 router.get("/getTestDomainwise", getTestDomainwise)
 router.get("/gettest/:testId", gettestByid);
+router.get("/get-test-random-order/:testId", getTestRandomOrderQuestion);
+
 router.post("/create", testCreate);
 router.put('/updateTest/:id', updateTest);
 router.delete('/deleteTest/:id', deleteTest);

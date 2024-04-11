@@ -24,9 +24,9 @@ export default function TestSidebar() {
       <div className="text-[20px] text-center font-semibold flex flex-wrap gap-4 px-4">
         {questions?.map((question, index) => <button
           key={question.id}
-          className={`w-14 ${activeQuestionNo === question.id ? "bg-green-600 text-white" : userResponses[index] === -1 ? "bg-red-300" : "bg-green-200"} aspect-square border-2 rounded-lg`}
-          onClick={() => handleSetQuestion(question.id)}
-        >{question.id}</button>)}
+          className={`w-14 ${activeQuestionNo === index + 1 ? "bg-green-600 text-white" : userResponses[question.id - 1] === -1 ? "bg-red-300" : "bg-green-200"} aspect-square border-2 rounded-lg`}
+          onClick={() => handleSetQuestion(index + 1)}
+        >{index + 1}</button>)}
       </div>
     </aside >
     <button className="bg-[#F5F0E5] fixed right-4 bottom-4 p-3 aspect-square lg:hidden z-20 rounded-3xl border-2 shadow-2xl" onClick={toggleSidebar}>

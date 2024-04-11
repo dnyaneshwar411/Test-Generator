@@ -51,7 +51,7 @@ function liveTestReducer(state = liveTestInitialState, action) {
     case "liveTest/save-currentAnswer":
       return {
         ...state,
-        userResponses: state.userResponses.map((answer, index) => index === state.activeQuestionNo - 1 ? action.payload.answer : answer),
+        userResponses: state.userResponses.map((answer, index) => index === state.activeQuestion.id - 1 ? action.payload.answer : answer),
         activeQuestion: state.activeQuestionNo < state.questions.length ? state.questions[state.activeQuestionNo] : state.activeQuestion,
         activeQuestionNo: state.activeQuestionNo < state.questions.length ? state.activeQuestionNo + 1 : state.activeQuestionNo,
       }
@@ -102,7 +102,7 @@ export function logout() {
 // function for test reducer
 export function startTest(id) {
   return async function (dispatch) {
-    const response = await fetch(`http://localhost:3000/test/gettest/${id}`);
+    const response = await fetch(`http://localhost:3000/test/get-test-random-order/${id}`);
     const data = await response.json()
     dispatch({ type: "liveTest/start-test", payload: ({ ...data.test, isStarted: true, activeQuestionNo: 1 }) })
   }

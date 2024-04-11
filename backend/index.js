@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({ extended: true }))
 
 router.use(cors({
   origin: "*"
-}))
+}));
 
 router.get("/", function (req, res) {
   res.send("Hello to Test generator  Backend ");
@@ -26,7 +26,7 @@ router.use('/email', emailRoutes);
 
 router.use("/test", test);
 
-router.use('/getusers', getusers)
+router.use('/getusers', getusers);
 
 router.listen(3000, function (req, res) {
   DBConnection();

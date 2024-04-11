@@ -81,23 +81,23 @@ export const gettestByid = async (req, res) => {
     if (!test) {
       return res.status(404).json({ message: "Test not found" });
     }
-    
+
     res.json({ test });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-export const getTestRandomOrderQuestion =async(req,res)=>{
-  try{
-   
-      const { testId } = req.params;
-      const test = await Tests.findById(testId);
-      if (!test) {
-        return res.status(404).json({ message: "Test not found" });
-      }
-      test.questions = test.questions.sort(() => Math.random() - 0.5);
-      res.json({ test });
-  }catch(e){
+export const getTestRandomOrderQuestion = async (req, res) => {
+  try {
+
+    const { testId } = req.params;
+    const test = await Tests.findById(testId);
+    if (!test) {
+      return res.status(404).json({ message: "Test not found" });
+    }
+    test.questions = test.questions.sort(() => Math.random() - 0.5);
+    res.json({ test });
+  } catch (e) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -169,7 +169,7 @@ export const submitAnswers = async (req, res) => {
     if (user) {
       user.completedTests = [...prevTest, newTest];
 
-   
+
       await user.save();
     }
     res.json({ score });

@@ -49,7 +49,7 @@ export default function PreviousResults() {
         const response = await fetch(`http://localhost:3000/test/completedTestsByuser/${user._id}`);
         const data = await response.json();
         if (response.status) {
-          const requiredData = data.find(res => res.testId = testId)
+          const requiredData = data.find(res => res.testId = testId);
           setResult(requiredData);
         }
         // else setError(response.payload);
@@ -59,7 +59,7 @@ export default function PreviousResults() {
     }
 
     retrieve();
-  }, [])
+  }, []);
 
   return <div>
     {error && <Error message={error} setter={setError} />}
