@@ -22,7 +22,7 @@ export default function Sidebar() {
           <span className="text-[16px]">Dashboard</span>
         </NavLink>
 
-        <NavLink to="/tests" className="flex items-start gap-2 p-2 mb-2">
+        <NavLink to="/tests/technical" className="flex items-start gap-2 p-2 mb-2">
           <ClipboardDocumentListIcon className="icon-lg" />
           <span className="text-[16px]">Tests</span>
         </NavLink>

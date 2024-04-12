@@ -23,7 +23,7 @@ export default function LiveTest() {
       event.preventDefault();
       return event.returnValue = "Do you want to end the test, you may not be able to give this test again"; // Required for Chrome
     };
-
+    dispatch({ type: "liveTest/setNotFetched" })
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
@@ -46,7 +46,7 @@ export default function LiveTest() {
       <button className='block mx-auto bg-green-500 text-white mt-10 rounded-lg shadow-md shadow-green-500 border-2' onClick={handleStartTest}>Start Test</button>
     </div>}
 
-    {isFetched && !isAvailable && <h1 className='text-center mt-[30vh]'>Test has not started yet 🙂</h1>}
+    {isFetched && !isAvailable && <h1 className='text-center mt-[30vh]'>Test is not available right now 🙂</h1>}
 
     {isCompleted && <ModalEndExam message="Exam has ended, kindly submit the exam!" />}
     {isStarted && <div className="mx-4 lg:mx-auto flex h-screen">

@@ -15,6 +15,7 @@ export default function TestCart({ test, showDetails }) {
       <h3>{test.title}</h3>
       <p>Date: {test.availableAt.substring(0, 10).split("-").join(" / ")}</p>
       <p>Duration: {test.testDuration} mins</p>
+      <p><strong>Available At :</strong> {test.availableAt.substring(11, 19)}</p>
 
       {currentTime >= testStartTime && currentTime <= testEndTime
         ? "Test is going on"

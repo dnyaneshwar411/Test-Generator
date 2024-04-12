@@ -31,6 +31,7 @@ import AdminResults from "./components/admin/results/AdminResults";
 import { useSelector } from "react-redux";
 import EditTest from "./components/admin/tests/EditTest";
 import AdminTestResults from "./components/admin/results/AdminTestResults";
+import SortedTests from "./components/profile/tests/SortedTests";
 
 export default function App() {
   const { isStarted, _id } = useSelector(store => store.liveTest);
@@ -44,8 +45,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={isLoggedIn && type === "user" ? <Profile /> : isLoggedIn && type == "admin" ? <Navigate to="/admin" /> : <Navigate to="/user" />}>
           <Route index path="" element={<Dashboard />} />
-          <Route index path=":id/status" element={<ShowTestStatus />} />
-          <Route index path="tests" element={<Tests />} />
+          <Route path=":id/status" element={<ShowTestStatus />} />
+          <Route path="tests/" element={<Tests />}>
+            <Route path=":id" element={<SortedTests />} />
+          </Route>
           <Route index path="tests/:id/start" element={<StartTest />} />
           <Route index path="tests/:id/generate" element={<GenerateCredentials />} />
           <Route index path="results" element={<Results />} />

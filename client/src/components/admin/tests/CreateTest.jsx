@@ -10,7 +10,7 @@ const optionsInitialState = [{ id: 1, value: "" }, { id: 2, value: "" }, { id: 3
 export default function CreateTest() {
   const { loading, createTest } = useCreateTest();
 
-  const [domain, setDomain] = useState("Mathematics");
+  const [domain, setDomain] = useState("Technical");
 
   const fileRef = useRef(null);
 
@@ -140,9 +140,8 @@ export default function CreateTest() {
           onChange={e => setCorrectAnswer(prev => e.target.value >= 1 && e.target.value <= 4 ? Number(e.target.value) : prev)}
         />
         <select value={domain} onChange={e => setDomain(e.target.value)} className={inputStyles}>
-          <option value="Mathematics">Mathematics</option>
-          <option value="Programming">Programming</option>
-          <option value="Science">Science</option>
+          <option value="Technical">Mathematics</option>
+          <option value="Non Technical">Programming</option>
         </select>
         <button type="button" className="bg-[#dedede] block ml-auto mb-4 rounded-3xl" onClick={addQuestion}>Add Question</button>
         {isCreated && <div className="py-4 px-4 bg-green-400 my-4">Test created successfully</div>}

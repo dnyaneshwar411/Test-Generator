@@ -75,6 +75,8 @@ function liveTestReducer(state = liveTestInitialState, action) {
 
     case "liveTest/submitTest":
       return { ...liveTestInitialState }
+    case "liveTest/setNotFetched":
+      return { ...state, isFetched: false, }
 
     default:
       return state;
@@ -108,7 +110,8 @@ export function startTest(id) {
     const data = await response.json();
     const testTime = new Date(data.test.availableAt)
     const current = new Date();
-    dispatch({ type: "liveTest/start-test", payload: ({ ...data.test, isFetched: true, isAvailable: current >= testTime }) })
+    const endTime = new Date(testTime.getTime() + data.test.duration * 60000)
+    dispatch({ type: "liveTest/start-test", payload: ({ ...data.test, isFetched: true, isAvailable: current >= testTime && current <= endTime }) })
   }
 }
 
