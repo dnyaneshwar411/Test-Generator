@@ -1,5 +1,5 @@
 # TEST GENERATOR
-You can check out the repo at this link - <a href="https://k-rite-dnyaneshwar-kawade.vercel.app/"><strong>Test Generator</strong></a>
+You can check out the repo at this link - <a href="https://test-generator-sandy.vercel.app/"><strong>Test Generator</strong></a>
  
 ### USER Dashboard
 <img src="client/public/UI_user.png"/>
